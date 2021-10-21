@@ -17,7 +17,7 @@ class PantallaPrincipal:
               '1. Iniciar sesion\n')
         decision = Checks.check_numero_teclado(1)
         if decision == 0:
-            print('SALIENDD DEL SISTEMA')
+            print('SALIENDO DEL SISTEMA')
             break
         if decision == 1:
             print('INICIAR SESIÓN')
