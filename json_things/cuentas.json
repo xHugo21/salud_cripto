@@ -1,0 +1,29 @@
+[
+  {
+    "Nombre": "Paco",
+    "Apellidos": "DS",
+    "ID": "123456789",
+    "PW": "123456789",
+    "Nivel": "1",
+    "Doctor":"-" ,
+    "Expediente": ""
+  },
+  {
+    "Nombre": "Juan",
+    "Apellidos": "DS",
+    "ID": "012345678",
+    "PW": "012345678",
+    "Nivel": "0",
+    "Doctor":"123456789" ,
+    "Expediente": "1234"
+  },
+  {
+    "Nombre": "Luis",
+    "Apellidos": "DS",
+    "ID": "234567890",
+    "PW": "234567890",
+    "Nivel": "2",
+    "Doctor":"-" ,
+    "Expediente": ""
+  }
+]
