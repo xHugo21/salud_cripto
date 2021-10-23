@@ -11,7 +11,6 @@ class Checks():
     @classmethod
     def bytes_json(cls, salt):
         token = b64encode(salt).decode('utf-8')
-        print('token', token)
         return token
 
     @classmethod

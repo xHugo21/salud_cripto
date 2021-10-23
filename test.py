@@ -43,7 +43,7 @@ b64url_binarydata = base64.urlsafe_b64encode(codificao) #Converting byte-like da
 print("Base64url string b64url_binarydata =", b64url_binarydata)
 print("Base64url Decoding b64url_binarydata", base64.urlsafe_b64decode(b64url_binarydata))
 '''
-
+'''
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import os
 from cryptography.hazmat.primitives import hashes
@@ -93,7 +93,7 @@ decryptor = paco.decryptor()
 fin = decryptor.update(ct) + decryptor.finalize()
 print('fin', fin)
 print('decode', base64.urlsafe_b64decode(fin).decode())
-
+'''
 '''
 import os
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
@@ -157,3 +157,53 @@ kdf = PBKDF2HMAC(
 )
 kdf.verify(b"my great password", key)
 '''
+from IniciarSesion import IniciarSesion
+from json_things.json import Json
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import base64
+import json
+import ast
+'''salt, iv, expedinte, key = IniciarSesion.inicio_sesion()
+ruta = 'BBDD/'+str(expedinte)+'.json'
+data = Json.datos_iniciar_sesion(ruta)
+data64 = base64.urlsafe_b64encode(str.encode(str(data)))
+print(data64)
+data1 = base64.urlsafe_b64decode(data64).decode()
+print(data1)
+#Json.sobreescibir_json()'''
+'''ruta = 'BBDD/Usuarios.json'
+data = Json.datos_iniciar_sesion(ruta)
+print( type(data))
+#Json.sobreescibir_json(data, ruta)
+data64 = base64.urlsafe_b64encode(str.encode(str(data))).decode('utf-8')
+data1 = base64.urlsafe_b64decode(data64).decode()
+Json.escribit_txt('BBDD/aqui.txt', str(data64))
+data = Json.leer_txt('BBDD/aqui.txt')
+print(data)
+data1 = base64.urlsafe_b64decode(data).decode()
+print(data1)
+
+data = ast.literal_eval(data1)
+print(type(data))'''
+data = Json.datos_iniciar_sesion('json_things/cuentas.json')
+print(data)
+print(type(data))
+print(data[0]['ID'])
+data[0]['ID'] = 23456789
+salt, iv, expedinte, key = IniciarSesion.inicio_sesion()
+Json.escribir_txt('BBDD/aqui.txt', key, iv, data)
+data1 = Json.leer_txt('BBDD/aqui.txt', key, iv)
+print(data)
+print('tipo int:', type(data))
+print(data == data1)
+'''ruta = 'BBDD/Usuarios.json'
+data = Json.datos_iniciar_sesion('json_things/cuentas.json')
+data = base64.urlsafe_b64encode(str.encode(str(data))).decode('utf-8').encode()
+print('data', data)
+salt, iv, expedinte, key = IniciarSesion.inicio_sesion()
+cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
+encryptor = cipher.encryptor()
+data = encryptor.update(data) + encryptor.finalize()
+print('data', data)'''
+
+

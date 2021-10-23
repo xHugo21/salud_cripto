@@ -16,5 +16,5 @@ class Pantallas:
 
     @classmethod
     def mensaje_salida(cls):
-        print('Saliedo del sistema\n')
+        print('Saliendo del sistema\n')
 

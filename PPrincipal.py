@@ -10,7 +10,7 @@ class PPrincipal:
             Pantallas.mensaje_salida()
             break
         if decision == 1:
-            IniciarSesion.inicio_sesion()
+            print(IniciarSesion.inicio_sesion())
 
 
 

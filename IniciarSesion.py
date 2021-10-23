@@ -41,7 +41,6 @@ class IniciarSesion:
         ruta = 'BBDD/Usuarios.json'
         json_file = open(ruta)
         data = json.load(json_file)
-        data = Json.datos_iniciar_sesion()
         existe = False
         intentos = 0
         while existe == False and intentos < 3:
@@ -57,12 +56,13 @@ class IniciarSesion:
         salt = Checks.json_bytes(data[posicion]['salt'])
         iv = Checks.json_bytes(data[posicion]['iv'])
         expediente = salt.hex()
-        IniciarSesion.contraseña(salt, iv, expediente)
-        print(expediente)
+        key = IniciarSesion.contraseña(salt)
+        return salt, iv, expediente, key
+
 
 
     @staticmethod
-    def contraseña(salt, iv, expediente):
+    def contraseña(salt):
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
