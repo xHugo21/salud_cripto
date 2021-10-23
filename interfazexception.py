@@ -1,8 +1,7 @@
-"""Exception for the access_management module"""
+'''Clase que contiene las excepciones resultantes del uso de la interfaz'''
 
 
-class AccessManagementException(Exception):
-    """Personalised exception for Access Management"""
+class InterfazException(Exception):
 
     def __init__(self, message):
         self.__message = message
@@ -10,7 +9,6 @@ class AccessManagementException(Exception):
 
     @property
     def message(self):
-        """gets the message value"""
         return self.__message
 
     @message.setter

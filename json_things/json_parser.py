@@ -1,11 +1,11 @@
-"""Class for parsing input JSON Files for the secure_all system"""
-import json
-from access_management_exception import AccessManagementException
+'''Clase para parsear los archivos JSON'''
+
+# Imports
+import jsonmethods
+from interfazexception import InterfazException
 
 
 class JsonParser():
-    """Class for parsing input JSON Files for the secure_all system"""
-    # pylint: disable=too-few-public-methods
     _key_list = []
     _key_error_message = "JSON Decode Error - Wrong label"
     _JSON_decode_error = "JSON Decode Error - Wrong JSON Format"
@@ -20,18 +20,18 @@ class JsonParser():
         """read the file in json format format"""
         try:
             with open(self._file, "r", encoding="utf-8", newline="") as json_file:
-                data = json.load(json_file)
+                data = jsonmethods.load(json_file)
         except FileNotFoundError as ex:
-            raise AccessManagementException(self._FILE_NOT_FOUND) from ex
-        except json.JSONDecodeError as ex:
-            raise AccessManagementException(self._JSON_decode_error) from ex
+            raise InterfazException(self._FILE_NOT_FOUND) from ex
+        except jsonmethods.JSONDecodeError as ex:
+            raise InterfazException(self._JSON_decode_error) from ex
         return data
 
     def _validate_json(self):
         """validate the json keys"""
         for key in self._key_list:
             if not key in self._json_content.keys():
-                raise AccessManagementException(self._key_error_message)
+                raise InterfazException(self._key_error_message)
 
     @property
     def json_content(self):

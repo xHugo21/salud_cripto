@@ -157,8 +157,8 @@ kdf = PBKDF2HMAC(
 )
 kdf.verify(b"my great password", key)
 '''
-from IniciarSesion import IniciarSesion
-from json_things.json import Json
+from iniciarsesion import IniciarSesion
+from json_things.jsonmethods import JsonMethods
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import base64
 import json
@@ -171,7 +171,7 @@ print(data64)
 data1 = base64.urlsafe_b64decode(data64).decode()
 print(data1)
 #Json.sobreescibir_json()'''
-'''ruta = 'BBDD/Usuarios.json'
+'''ruta = 'BBDD/usuarios.json'
 data = Json.datos_iniciar_sesion(ruta)
 print( type(data))
 #Json.sobreescibir_json(data, ruta)
@@ -185,18 +185,18 @@ print(data1)
 
 data = ast.literal_eval(data1)
 print(type(data))'''
-data = Json.datos_iniciar_sesion('json_things/cuentas.json')
+data = JsonMethods.obtener_datos('json_things/cuentas.json')
 print(data)
 print(type(data))
 print(data[0]['ID'])
 data[0]['ID'] = 23456789
 salt, iv, expedinte, key = IniciarSesion.inicio_sesion()
-Json.escribir_txt('BBDD/2b1cddc11e325b1abd68dad5bb4a2429ff2e48214b351fd1e5138e8b2d1c801c.txt', key, iv, data)
-data1 = Json.leer_txt('BBDD/2b1cddc11e325b1abd68dad5bb4a2429ff2e48214b351fd1e5138e8b2d1c801c.txt', key, iv)
+JsonMethods.escribir_txt('BBDD/2b1cddc11e325b1abd68dad5bb4a2429ff2e48214b351fd1e5138e8b2d1c801c.txt', key, iv, data)
+data1 = JsonMethods.leer_txt('BBDD/2b1cddc11e325b1abd68dad5bb4a2429ff2e48214b351fd1e5138e8b2d1c801c.txt', key, iv)
 print(data)
 print('tipo int:', type(data))
 print(data == data1)
-'''ruta = 'BBDD/Usuarios.json'
+'''ruta = 'BBDD/usuarios.json'
 data = Json.datos_iniciar_sesion('json_things/cuentas.json')
 data = base64.urlsafe_b64encode(str.encode(str(data))).decode('utf-8').encode()
 print('data', data)

@@ -1,3 +1,4 @@
+# Archivo que contiene las normas de pylint para buena redacción de código.
 [MASTER]
 
 # A comma-separated list of package or module names from where C extensions may
