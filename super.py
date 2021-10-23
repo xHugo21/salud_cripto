@@ -54,3 +54,7 @@ class Super:
                 pacientes.append(self.datos[i]['ID'])
                 print(str(contador) + '. ' + self.datos[i]['Nombre'] + ' ' + self.datos[i]['Apellidos'])
         return pacientes[Checks.check_numero_teclado(len(pacientes)) - 1]
+
+    def añadir_doctor(self):
+        pass
+    #Añadir doctores
