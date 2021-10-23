@@ -13,7 +13,7 @@ class IniciarSesion:
 
     @staticmethod
     def inicio_sesion():
-        '''Gestiona el inicio de sesión'''
+        '''Gestiona el inicio de sesión. Devuelve la posición del usuario en caso de encontrarlo o None en caso contrario.'''
 
         ruta = 'BBDD/usuarios.json'  # Ruta al archivo json que almacena los usuarios
 
@@ -24,7 +24,7 @@ class IniciarSesion:
         # Variables de control
         existe = False
         intentos = 0
-        posicion = 0
+        posicion = None
 
         print('')
         # Comprobamos si existe (3 intentos)
@@ -32,13 +32,18 @@ class IniciarSesion:
             id = input('Escriba su ID (' + str(3 - intentos) + ' intentos restantes): ')  # Pedir id
 
             # Comprobar tipo de id es entero
-            if isinstance(id, int):
-                # Recorremos el json en busca del usuario
-                for i in range(len(data)):
-                    # Si lo encuentra -> existe = True y posicion = i
-                    if int(id) == int(data[i]["ID"]):
-                        existe = True
-                        posicion = i
+            try:
+                id = int(id)
+                if isinstance(id, int):
+                    # Recorremos el json en busca del usuario
+                    for i in range(len(data)):
+                        # Si lo encuentra -> existe = True y posicion = i
+                        if int(id) == int(data[i]["ID"]):
+                            existe = True
+                            posicion = i
+            # Si no es entero devolver el siguiente mensaje
+            except ValueError:
+                print("Introduzca un número como ID")
 
             intentos += 1  # Si no lo ha encontrado aumentamos el número de intentos
 

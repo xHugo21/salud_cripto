@@ -1,7 +1,7 @@
 '''Clase para parsear los archivos JSON'''
 
 # Imports
-import jsonmethods
+import json
 from interfazexception import InterfazException
 
 
@@ -20,10 +20,10 @@ class JsonParser():
         """read the file in json format format"""
         try:
             with open(self._file, "r", encoding="utf-8", newline="") as json_file:
-                data = jsonmethods.load(json_file)
+                data = json.load(json_file)
         except FileNotFoundError as ex:
             raise InterfazException(self._FILE_NOT_FOUND) from ex
-        except jsonmethods.JSONDecodeError as ex:
+        except json.JSONDecodeError as ex:
             raise InterfazException(self._JSON_decode_error) from ex
         return data
 

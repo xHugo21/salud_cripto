@@ -13,7 +13,7 @@ Autores: Juan Franco Labarra 100429065 y Hugo García Cuesta 100428954
 '''
 
 '''
-COMENTARIOS Y TODO'S: Al devolver error al escribir el ID de usuario se debe reiniciar el bucle.
+COMENTARIOS Y TODO'S: Al devolver error al escribir el ID de usuario se debe reiniciar el bucle. Solución: que inicio_sesion devuelva solo la posicion y salt, iv, expediente y key se generen en otro método
 Interfaz dentro de la clase Doctor mover a interfaz.py?
 Interfaz dentro de la clase Super mover a interfaz.py?
 Cambiar directorio json_things a python package?

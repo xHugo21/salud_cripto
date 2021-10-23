@@ -1,6 +1,7 @@
 '''Clase que contiene el rol "Doctor". Capaz de ver sus pacientes y crear nuevos pacientes'''
 
 # Imports
+from interfaz import Interfaz
 from checks import Checks
 from json_things.jsonmethods import JsonMethods
 
@@ -12,25 +13,7 @@ class Doctor:
 
         # ¿Mover a interfaz.py?
         # Bucle de la interfaz del doctor
-        while True:
-            print('BIENVENIDO ' + self.cuenta['Nombre'] + ' ' + self.cuenta["Apellidos"])
-            print('¿Qué desea hacer?\n'
-                  '0. Atrás\n'
-                  '1. Mis pacientes\n'
-                  '2. Buscar paciente\n')
-            decision = Checks.check_numero_teclado(2)  # Obtener input
-            print(decision)
-            # Si decision == 0 -> Atrás
-            if decision == 0:
-                print('Atrás')
-                break
-            # Si decision == 1 -> Mis pacientes
-            elif decision == 1:
-                print('aqui')
-                self.paciente(self.lista_pacientes())
-            # Si decision == 2 -> Buscar paciente
-            elif decision == 2:
-                self.paciente(self.buscar_paciente())
+        Interfaz.menu_doctor(self)
 
     def lista_pacientes(self):
         '''Método que devuelve la lista de pacientes asociados al doctor'''
