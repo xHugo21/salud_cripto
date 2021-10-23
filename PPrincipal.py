@@ -1,6 +1,7 @@
 from SPantallas import Pantallas
 from checks import Checks
 from IniciarSesion import IniciarSesion
+from json_things.json import Json
 
 class PPrincipal:
     while True:
@@ -10,7 +11,10 @@ class PPrincipal:
             Pantallas.mensaje_salida()
             break
         if decision == 1:
-            print(IniciarSesion.inicio_sesion())
+            salt, iv, expediente, key = IniciarSesion.inicio_sesion()
+            ruta = 'BBDD/' + str(expediente) + '.txt'
+            data = Json.leer_txt(ruta, key, iv)
+            print(data[0]['Nivel'])
 
 
 
