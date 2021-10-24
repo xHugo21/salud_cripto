@@ -13,6 +13,7 @@ class JsonMethods:
     def __init__(self):
         self.obtener_datos()
         self.sobreescibir_json()
+        self.add_usuario()
 
     @staticmethod
     def obtener_datos(ruta):
@@ -60,7 +61,7 @@ class JsonMethods:
         return 0
 
     @staticmethod
-    def crear_expediente(self, salt):
+    def crear_expediente(salt):
         expediente = salt.hex()
         ruta = 'BBDD/'+str(expediente)+'.txt'
         f = open(ruta, 'w')
@@ -76,7 +77,7 @@ class JsonMethods:
                    "Acceso": []}
         return data
 
-    def añadir_usuario(self, id, salt, iv):
+    def add_usuario(self, id, salt, iv):
         ruta = 'BBDD/usuarios.json'
         data = self.obtener_datos(ruta)
         aux = {

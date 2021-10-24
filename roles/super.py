@@ -15,16 +15,16 @@ class Super:
         self.__salt = salt
         self.__expediente = expediente
 
-    def añadir_medico(self):
+    def add_doctor(self):
         '''Método que permite añadir doctores'''
         nombre = input('\t Insertar nombre: ')
         apellidos = input('\t Insertar apellidos: ')
-        id = input('\t Insertar nombre: ')
+        id = input('\t Insertar id: ')
         pw = input('\t Insertar contraseña: ')
         salt = os.urandom(16)
         iv = os.urandom(16)
         JsonMethods.crear_expediente(salt)
-        JsonMethods.añadir_usuario(id, salt, iv)
+        JsonMethods.add_usuario()
         kdf = Scrypt(
             salt=salt,
             length=128,

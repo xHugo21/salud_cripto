@@ -65,7 +65,7 @@ class Interfaz:
                 self.sujeto.mis_doctores()
             # Si decision == 2 -> Buscar paciente
             elif decision == 2:
-                self.sujeto.añadir_medico()
+                self.sujeto.add_doctor()
 
 
     @staticmethod
