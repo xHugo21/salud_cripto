@@ -20,7 +20,7 @@ Cambiar directorio json_things a python package?
 '''
 
 # Imports
-from interfaz import Interfaz
+from interfaces.interfaz import Interfaz
 
 # Inicio de la aplicación
 app = Interfaz()

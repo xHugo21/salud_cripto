@@ -2,7 +2,7 @@
 
 # Imports
 from checks import Checks
-from interfaz import Interfaz
+from interfaces.interfaz import Interfaz
 from json_things.jsonmethods import JsonMethods
 
 

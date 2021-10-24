@@ -1,7 +1,7 @@
 '''Clase que contiene el rol "Doctor". Capaz de ver sus pacientes y crear nuevos pacientes'''
 
 # Imports
-from interfaz import Interfaz
+from interfaces.interfaz import Interfaz
 from checks import Checks
 from json_things.jsonmethods import JsonMethods
 
