@@ -6,6 +6,8 @@ from checks import Checks
 from iniciarsesion import IniciarSesion
 from json_things.jsonmethods import JsonMethods
 from roles.super import Super
+import os
+
 '''
 from roles.doctor import Doctor
 from roles.paciente import Paciente'''
@@ -14,7 +16,7 @@ from roles.paciente import Paciente'''
 class Interfaz:
     def __init__(self):
         self.bucle_principal()
-        self.sujeto = 0
+        self.sujeto = None
 
     def bucle_principal(self):
         '''Bucle que mantiene la pantalla principal hasta seleccionar 0 (salir)'''
@@ -30,6 +32,7 @@ class Interfaz:
 
             # Si decision == 1 -> Iniciar Sesión
             if decision == 1:
+                print('\nInicio de sesión')
                 aux = IniciarSesion.inicio_sesion()
                 salt, iv, expediente, key, id = aux
                 ruta = 'BBDD/' + str(expediente) + '.txt'
@@ -41,26 +44,22 @@ class Interfaz:
                         self.menu_super(nombre)
                     elif data[0]['Nivel'] == str(1):
                         self.sujeto = Super(id, key, iv, salt, expediente)
-                        Interfaz.menu_doctor()
+                        Interfaz.menu_doctor(nombre)
                     elif data[0]['Nivel'] == str(0):
                         self.sujeto = Super(id, key, iv, salt, expediente)
-                        Interfaz.menu_paciente()
+                        Interfaz.menu_paciente(nombre)
 
     def menu_super(self, nombre):
         '''Menu del rol super'''
         while True:
-            print('BIENVENIDO ' + nombre)
-            print('¿Qué desea hacer?\n'
-                  '0. Log out\n'
-                  '1. Mis doctores\n'
-                  '2. Añadir doctor\n')
+            StringInterfaz.mensaje_super(nombre)
             decision = Checks.check_numero_teclado(2)  # Obtener input
-            print(decision)
-            # Si decision == 0 -> Atrás
+            # Si decision == 0 -> Log out
             if decision == 0:
-                print('Atrás')
+                print('\nCerrando sesión\n')
+                print('\n' * 80)
                 break
-            # Si decision == 1 -> Mis pacientes
+            # Si decision == 1 -> Lista doctores
             elif decision == 1:
                 while True:
                     aux = self.sujeto.mis_doctores()
@@ -71,50 +70,38 @@ class Interfaz:
                 self.sujeto.add_doctor()
 
 
-    @staticmethod
-    def menu_doctor(doctor):
+    def menu_doctor(self, nombre):
         '''Menu del rol doctor'''
         while True:
-            print('BIENVENIDO ' + doctor.cuenta['Nombre'] + ' ' + doctor.cuenta["Apellidos"])
-            print('¿Qué desea hacer?\n'
-                  '0. Log out\n'
-                  '1. Mis pacientes\n'
-                  '2. Buscar paciente\n')
+            StringInterfaz.mensaje_doctor(nombre)
             decision = Checks.check_numero_teclado(2)  # Obtener input
-            print(decision)
             # Si decision == 0 -> Atrás
             if decision == 0:
-                print('Atrás')
+                print('\nCerrando sesión\n')
                 break
             # Si decision == 1 -> Mis pacientes
             elif decision == 1:
-                print('aqui')
-                doctor.paciente(doctor.lista_pacientes())
+                self.sujeto.mis_doctores()
             # Si decision == 2 -> Buscar paciente
             elif decision == 2:
-                doctor.paciente(doctor.buscar_paciente())
-    @staticmethod
-    def menu_paciente(paciente):
+                self.sujeto.add_doctor()
+
+
+    def menu_paciente(self, nombre):
         '''Menu del rol paciente'''
         while True:
-            print('BIENVENIDO ' + paciente.cuenta['Nombre'] + ' ' + paciente.cuenta["Apellidos"])
-            print('¿Qué desea hacer?\n'
-                  '0. Log out\n'
-                  '1. Mis pacientes\n'
-                  '2. Buscar paciente\n')
+            StringInterfaz.mensaje_paciente(nombre)
             decision = Checks.check_numero_teclado(2)  # Obtener input
-            print(decision)
             # Si decision == 0 -> Atrás
             if decision == 0:
-                print('Atrás')
+                print('\nCerrando sesión\n')
                 break
             # Si decision == 1 -> Mis pacientes
             elif decision == 1:
-                print('aqui')
-                paciente.paciente(paciente.lista_pacientes())
+                self.sujeto.mis_doctores()
             # Si decision == 2 -> Buscar paciente
             elif decision == 2:
-                paciente.paciente(paciente.buscar_paciente())
+                self.sujeto.add_doctor()
 
 
 

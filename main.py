@@ -17,6 +17,9 @@ COMENTARIOS Y TODO'S: Al devolver error al escribir el ID de usuario se debe rei
 Interfaz dentro de la clase Doctor mover a interfaz.py?
 Interfaz dentro de la clase Super mover a interfaz.py?
 Cambiar directorio json_things a python package?
+
+INFORME DOCTOR: Nombre, Apellidos, ID, Nivel (Doctor), Lista de ID's de sus pacientes
+INFORME PACIENTE: Nombre Apellidos, ID, Nivel (Paciente), ID Doctor asociado, Informe
 '''
 
 # Imports

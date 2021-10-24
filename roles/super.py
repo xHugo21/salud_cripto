@@ -18,10 +18,11 @@ class Super:
 
     def add_doctor(self):
         '''Método que permite añadir doctores'''
-        nombre = input('\t Insertar nombre: ')
-        apellidos = input('\t Insertar apellidos: ')
-        id = input('\t Insertar id: ')
-        pw = input('\t Insertar contraseña: ')
+        print('\nNuevo doctor')
+        nombre = input('\tInsertar nombre: ')
+        apellidos = input('\tInsertar apellidos: ')
+        id = input('\tInsertar ID: ')
+        pw = input('\tInsertar contraseña: ')
         salt = os.urandom(16)
         iv = os.urandom(16)
         JsonMethods.crear_expediente(salt)
@@ -45,8 +46,9 @@ class Super:
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
         return 0
 
-    def lista_doctores(self):
-        print('Seleccione el doctor')
+    def seleccion_doctor(self):
+        '''Lista los doctores y devuelve el ID del doctor seleccionado'''
+        print('\nSeleccione el doctor')
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
         Accesos = data[0]['Acceso']
         print('\t0. Atrás')

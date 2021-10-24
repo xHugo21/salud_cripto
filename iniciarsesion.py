@@ -26,10 +26,9 @@ class IniciarSesion:
         intentos = 0
         posicion = None
 
-        print('')
         # Comprobamos si existe (3 intentos)
         while existe is False and intentos < 3:
-            id = input('Escriba su ID (' + str(3 - intentos) + ' intentos restantes): ')  # Pedir id
+            id = input('\tEscriba su ID (' + str(3 - intentos) + ' intentos restantes): ')  # Pedir id
 
             # Comprobar tipo de id es entero
             try:
@@ -71,6 +70,6 @@ class IniciarSesion:
             salt=salt,
             iterations=100000,
         )
-        pw = input('\nEscriba su contraseña: ')
+        pw = input('\tEscriba su contraseña: ')
         key = kdf.derive(str.encode(pw))
         return key
