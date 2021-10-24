@@ -6,6 +6,7 @@ from checks import Checks
 from iniciarsesion import IniciarSesion
 from json_things.jsonmethods import JsonMethods
 from roles.super import Super
+from roles.doctor import Doctor
 import os
 
 '''
@@ -43,17 +44,17 @@ class Interfaz:
                         self.sujeto = Super(id, key, iv, salt, expediente)
                         self.menu_super(nombre)
                     elif data[0]['Nivel'] == str(1):
-                        self.sujeto = Super(id, key, iv, salt, expediente)
-                        Interfaz.menu_doctor(nombre)
+                        self.sujeto = Doctor(id, key, iv, salt, expediente)
+                        self.menu_doctor(nombre)
                     elif data[0]['Nivel'] == str(0):
                         self.sujeto = Super(id, key, iv, salt, expediente)
-                        Interfaz.menu_paciente(nombre)
+                        self.menu_paciente(nombre)
 
     def menu_super(self, nombre):
         '''Menu del rol super'''
         while True:
             StringInterfaz.bucle_super(nombre)
-            decision = Checks.check_numero_teclado(2)  # Obtener input
+            decision = Checks.check_numero_teclado(3)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
@@ -70,23 +71,35 @@ class Interfaz:
             elif decision == 2:
                 self.sujeto.add_doctor()
 
+            # Si decision == 3 -> Borrar doctor
+            elif decision == 3:
+                self.sujeto.borrar_medico()
+
 
     def menu_doctor(self, nombre):
         '''Menu del rol doctor'''
         while True:
             StringInterfaz.bucle_doctor(nombre)
-            decision = Checks.check_numero_teclado(2)  # Obtener input
+            decision = Checks.check_numero_teclado(3)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
+                print('\n' * 80)
                 break
-            # Si decision == 1 -> Lista pacientes
+
+            # Si decision == 1 -> Lista paciente
             elif decision == 1:
-                self.sujeto.mis_pacientes()
+                if self.sujeto.mis_pacientes() != -1:
+                    print('\n\t0. Atrás')
+                    Checks.check_numero_teclado(0)
+
             # Si decision == 2 -> Añadir paciente
             elif decision == 2:
                 self.sujeto.add_paciente()
 
+            # Si decision == 3 -> Borrar paciente
+            elif decision == 3:
+                self.sujeto.borrar_paciente()
 
     def menu_paciente(self, nombre):
         '''Menu del rol paciente'''

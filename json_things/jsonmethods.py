@@ -67,13 +67,24 @@ class JsonMethods:
         f.close()
 
     @staticmethod
-    def crear_diccionario(nombre, apellidos, id, nivel):
+    def crear_diccionario_doctor(nombre, apellidos, id, nivel):
         data = [{"Nombre": nombre,
                    "Apellidos": apellidos,
                    "ID": id,
                    "Nivel": str(nivel),
                    "Acceso": []}]
         return data
+
+    @staticmethod
+    def crear_diccionario_paciente(nombre, apellidos, id, nivel, id_doctor, informe):
+        data = [{"Nombre": nombre,
+                 "Apellidos": apellidos,
+                 "ID": id,
+                 "Nivel": str(nivel),
+                 "ID_Doctor": id_doctor,
+                 "Informe": informe}]
+        return data
+
     @classmethod
     def add_usuario(self, id, salt, iv):
         ruta = 'BBDD/usuarios.json'
@@ -84,6 +95,16 @@ class JsonMethods:
             "iv": Checks.bytes_json(iv)
         }
         data.append(aux)
+        self.sobreescibir_json(data, ruta)
+        return 0
+
+    @classmethod
+    def delete_usuario(self, id):
+        ruta = 'BBDD/usuarios.json'
+        data = self.obtener_datos(ruta)
+        for i in range(len(data)):
+            if data[i]['ID'] == id:
+                print('pop', data.pop(i))
         self.sobreescibir_json(data, ruta)
         return 0
 

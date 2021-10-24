@@ -37,19 +37,16 @@ class Super:
         expediente = salt.hex()
         new_ruta = 'BBDD/' + str(expediente) + '.txt'
         key = kdf.derive(pw.encode())
-        data = JsonMethods.crear_diccionario(nombre, apellidos, id, 2)
+        data = JsonMethods.crear_diccionario_doctor(nombre, apellidos, id, 1)
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
         new_wrap_key = JsonMethods.añadir_acceso(self.__key, key)
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
-        print(data)
         data[0]['Acceso'].append([id, new_wrap_key])
-        print(data)
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
         return 0
 
     def seleccion_doctor(self):
         '''Lista los doctores y devuelve el ID del doctor seleccionado'''
-        print('\nSeleccione el doctor')
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
         Accesos = data[0]['Acceso']
         print('\t0. Atrás')
@@ -63,6 +60,7 @@ class Super:
 
     def mis_doctores(self):
         '''Accede a los datos del doctor seleccionado'''
+        print('\nSeleccione el doctor')
         id_seleccion = self.seleccion_doctor()
         if id_seleccion == -1:
             return -1
@@ -79,3 +77,29 @@ class Super:
         iv = Checks.json_bytes(iv)
         data = JsonMethods.leer_txt('BBDD/' + salt.hex() + '.txt', key, iv)
         StringInterfaz.ficha_doctor(data)
+        return 0
+
+    def borrar_medico(self):
+        '''Método que permite borrar doctores'''
+        print('\nSeleccione el doctor para borrar')
+        ruta = 'BBDD/usuarios.json'
+        data = JsonMethods.obtener_datos(ruta)
+        id_seleccion = self.seleccion_doctor()
+        if id_seleccion == -1:
+            return -1
+        id = id_seleccion[0]
+        JsonMethods.delete_usuario(id)
+        for i in range(len(data)):
+            if data[i]['ID'] == id:
+                salt = data[i]['salt']
+        expediente = Checks.json_bytes(salt).hex()
+        os.remove('BBDD/' + expediente + '.txt')
+        data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
+        for i in range(len(data[0]['Acceso'])):
+            if data[0]['Acceso'][i][0] == id:
+                data[0]['Acceso'].pop(i)
+        JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
+        return -1
+
+
+
