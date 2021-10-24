@@ -4,7 +4,7 @@
 class StringInterfaz:
 
     @staticmethod
-    def mensaje_inicio():
+    def bucle_inicio():
         print('------------------------------')
         print('\tBienvenido a MiSalud')
         print('------------------------------\n')
@@ -13,7 +13,7 @@ class StringInterfaz:
               '\t1. Iniciar sesión')
 
     @staticmethod
-    def mensaje_super(nombre):
+    def bucle_super(nombre):
         print('\n' * 80)
         print('Se ha identificado como ' + nombre + ' [Super]')
         print('\n¿Qué desea hacer?\n'
@@ -22,30 +22,40 @@ class StringInterfaz:
               '\t2. Añadir doctor')
 
     @staticmethod
-    def mensaje_doctor(nombre):
+    def bucle_doctor(nombre):
         print('\n' * 80)
         print('\nSe ha identificado como ' + nombre + ' [Doctor]')
         print('\n¿Qué desea hacer?\n'
               '\t0. Log out\n'
-              '\t1. Mis pacientes\n'
+              '\t1. Lista pacientes\n'
               '\t2. Añadir paciente')
 
     @staticmethod
-    def mensaje_paciente(nombre):
+    def bucle_paciente(nombre):
         print('\n' * 80)
         print('Se ha identificado como ' + nombre + ' [Paciente]')
         print('\n¿Qué desea hacer?\n'
               '\t0. Log out\n'
-              '\t1. ¿Mi doctor?\n'
-              '\t2. Mi informe médico')
+              '\t1. Mi informe')
 
     @staticmethod
-    def informe_doctor(data):
-        pass
+    def ficha_doctor(data):
+        print(f'\nFicha del doctor {data[0]["Nombre"]} {data[0]["Apellidos"]}')
+        print(f'\tID: {data[0]["ID"]}')
+        cadena = '['
+        for i in range(len(data[0]['Acceso'])):
+            cadena = cadena + data[0]['Acceso'][i] + ', '
+        cadena = cadena + ']'
+        print(f'\tPacientes asociados: {cadena}')
+
 
     @staticmethod
-    def informe_paciente(data):
-        pass
+    def ficha_paciente(data):
+        print(f'\nFicha del paciente {data[0]["Nombre"]} {data[0]["Apellidos"]}')
+        print(f'\tID: {data[0]["ID"]}')
+        print('\tDoctor asociado: {ID Doctor asociado}')
+        print('\tInforme: {Informe}')
+
 
 
     @staticmethod

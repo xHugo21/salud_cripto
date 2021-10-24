@@ -6,6 +6,7 @@ import os
 from json_things.jsonmethods import JsonMethods
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from interfaces.stringinterfaz import StringInterfaz
 
 
 class Super:
@@ -55,7 +56,6 @@ class Super:
         for i in range(len(Accesos)):
             print(f'\t{str(i+1)}. ID: {Accesos[i][0]}')
         decision = Checks.check_numero_teclado(len(Accesos))
-        print('decision, ', decision)
         if decision == 0:
             return -1
         id_seleccion = Accesos[decision-1]
@@ -78,5 +78,4 @@ class Super:
         salt = Checks.json_bytes(salt)
         iv = Checks.json_bytes(iv)
         data = JsonMethods.leer_txt('BBDD/' + salt.hex() + '.txt', key, iv)
-        #interfaz.mostrar_informe(data)
-        print(data)
+        StringInterfaz.ficha_doctor(data)

@@ -22,7 +22,7 @@ class Interfaz:
         '''Bucle que mantiene la pantalla principal hasta seleccionar 0 (salir)'''
 
         while True:
-            StringInterfaz.mensaje_inicio()  # Selección 1: Salir (0) o Iniciar Sesión (1)
+            StringInterfaz.bucle_inicio()  # Selección 1: Salir (0) o Iniciar Sesión (1)
             decision = Checks.check_numero_teclado(1)  # Obtener input
 
             # Si decision == 0 -> Salir
@@ -52,19 +52,20 @@ class Interfaz:
     def menu_super(self, nombre):
         '''Menu del rol super'''
         while True:
-            StringInterfaz.mensaje_super(nombre)
+            StringInterfaz.bucle_super(nombre)
             decision = Checks.check_numero_teclado(2)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
                 print('\n' * 80)
                 break
+
             # Si decision == 1 -> Lista doctores
             elif decision == 1:
-                while True:
-                    aux = self.sujeto.mis_doctores()
-                    if aux == -1:
-                        break
+                if self.sujeto.mis_doctores() != -1:
+                    print('\n\t0. Atrás')
+                    Checks.check_numero_teclado(0)
+
             # Si decision == 2 -> Añadir doctor
             elif decision == 2:
                 self.sujeto.add_doctor()
@@ -73,35 +74,32 @@ class Interfaz:
     def menu_doctor(self, nombre):
         '''Menu del rol doctor'''
         while True:
-            StringInterfaz.mensaje_doctor(nombre)
+            StringInterfaz.bucle_doctor(nombre)
             decision = Checks.check_numero_teclado(2)  # Obtener input
-            # Si decision == 0 -> Atrás
+            # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
                 break
-            # Si decision == 1 -> Mis pacientes
+            # Si decision == 1 -> Lista pacientes
             elif decision == 1:
-                self.sujeto.mis_doctores()
-            # Si decision == 2 -> Buscar paciente
+                self.sujeto.mis_pacientes()
+            # Si decision == 2 -> Añadir paciente
             elif decision == 2:
-                self.sujeto.add_doctor()
+                self.sujeto.add_paciente()
 
 
     def menu_paciente(self, nombre):
         '''Menu del rol paciente'''
         while True:
-            StringInterfaz.mensaje_paciente(nombre)
-            decision = Checks.check_numero_teclado(2)  # Obtener input
-            # Si decision == 0 -> Atrás
+            StringInterfaz.bucle_paciente(nombre)
+            decision = Checks.check_numero_teclado(1)  # Obtener input
+            # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
                 break
-            # Si decision == 1 -> Mis pacientes
+            # Si decision == 1 -> Mi informe
             elif decision == 1:
-                self.sujeto.mis_doctores()
-            # Si decision == 2 -> Buscar paciente
-            elif decision == 2:
-                self.sujeto.add_doctor()
+                self.sujeto.mi_informe()
 
 
 

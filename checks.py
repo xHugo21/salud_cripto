@@ -8,7 +8,10 @@ class Checks:
 
     @classmethod
     def check_numero_teclado(cls, maximum=1):
-        input_number = input('[0 - ' + str(maximum) + ']: ')  # Mensaje input
+        if maximum > 0:
+            input_number = input('[0 - ' + str(maximum) + ']: ')  # Mensaje input
+        else:
+            input_number = input('[0]: ')  # Mensaje input
 
         # Check de valores correctos
         while not input_number.isnumeric() or int(input_number) not in range(0, maximum+1):
