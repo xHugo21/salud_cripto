@@ -62,7 +62,7 @@ class Interfaz:
                 break
             # Si decision == 1 -> Mis pacientes
             elif decision == 1:
-                super.paciente(super.lista_pacientes())
+                self.sujeto.mis_doctores()
             # Si decision == 2 -> Buscar paciente
             elif decision == 2:
                 self.sujeto.añadir_medico()

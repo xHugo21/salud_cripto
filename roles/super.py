@@ -52,7 +52,7 @@ class Super:
         id_seleccion = Accesos[decision]
         return id_seleccion
 
-    def Mis_doctores(self):
+    def mis_doctores(self):
         id_seleccion = self.lista_doctores()
         id = id_seleccion()[0]
         wrap_key = id_seleccion[1]
