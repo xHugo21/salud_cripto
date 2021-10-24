@@ -30,7 +30,8 @@ class Interfaz:
                 data = JsonMethods.leer_txt(ruta, key, iv)
                 print(data[0]['Nivel'])
 
-    def menu_super(self, super):
+    @staticmethod
+    def menu_super(super):
         '''Menu del rol super'''
         while True:
             print('BIENVENIDO ' + super.cuenta['Nombre'] + ' ' + super.cuenta["Apellidos"])
@@ -52,7 +53,8 @@ class Interfaz:
             elif decision == 2:
                 super.paciente(super.buscar_paciente())
 
-    def menu_doctor(self, doctor):
+    @staticmethod
+    def menu_doctor(doctor):
         '''Menu del rol doctor'''
         while True:
             print('BIENVENIDO ' + doctor.cuenta['Nombre'] + ' ' + doctor.cuenta["Apellidos"])
