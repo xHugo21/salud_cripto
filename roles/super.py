@@ -1,55 +1,67 @@
-'''Clase que contiene el rol "Super". Es el rol con más permisos y se le permite añadir doctores y pacientes'''
+'''Clase que contiene el rol "Super". Es el rol con más permisos y se le permite añadir y eliminar doctores'''
 
 # Imports
 from checks import Checks
-from interfaces.interfaz import Interfaz
+import os
+from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 from json_things.jsonmethods import JsonMethods
 
 
 class Super:
-    def __init__(self, cuenta):
-        self.cuenta = cuenta  # JSON que contiene la información de super
-        self.datos = JsonMethods.obtener_datos(cuenta)  # Almacena los datos de super
+    def __init__(self, id, key, iv, salt, expediente):
+        self.__id = id
+        self.__key = key
+        self.__iv = iv
+        self.__salt = salt
+        self.__expediente = expediente
 
-        # ¿Mover a interfaz.py?
-        # Bucle de la interfaz de super
-        Interfaz.menu_super(self)
-
-    def lista_pacientes(self):
-        '''Método que devuelve la lista de pacientes asociados a un doctor'''
-        id_doctor = self.cuenta["ID"]
-        contador = 0
-        pacientes = []
-        for i in range(len(self.datos)):
-            if int(self.datos[i]['Nivel']) == 0:
-                contador += 1
-                pacientes.append(self.datos[i]['ID'])
-                print(str(contador) + '. ' + self.datos[i]['Nombre'] + ' ' + self.datos[i]['Apellidos'])
-        return pacientes[Checks.check_numero_teclado(len(pacientes)) - 1]
-
-    def paciente(self, id_paciente):
-        for i in range(len(self.datos)):
-            if self.datos[i]['ID'] == id_paciente:
-                print(self.datos[i]['Expediente'])
-        print('0. Atras')
-        Checks.check_numero_teclado(0)
-
-    def buscar_paciente(self):
-        '''Método que permite buscar un paciente en concreto'''
-        busqueda = input('buscar: ')
-        contador = 0
-        pacientes = []
-        for i in range(len(self.datos)):
-            if (int(self.datos[i]['Nivel']) == 0 and
-                    (busqueda == self.datos[i]['Nombre'] or
-                     busqueda == self.datos[i]['Apellidos'] or
-                     busqueda == self.datos[i]['ID'])):
-                contador += 1
-                pacientes.append(self.datos[i]['ID'])
-                print(str(contador) + '. ' + self.datos[i]['Nombre'] + ' ' + self.datos[i]['Apellidos'])
-        return pacientes[Checks.check_numero_teclado(len(pacientes)) - 1]
-
-    def añadir_doctor(self):
+    def añadir_medico(self):
         '''Método que permite añadir doctores'''
-        pass
-    #Añadir doctores
+        nombre = input('\t Insertar nombre: ')
+        apellidos = input('\t Insertar apellidos: ')
+        id = input('\t Insertar nombre: ')
+        pw = input('\t Insertar contraseña: ')
+        salt = os.urandom(16)
+        iv = os.urandom(16)
+        JsonMethods.crear_expediente(salt)
+        JsonMethods.añadir_usuario(id, salt, iv)
+        kdf = Scrypt(
+            salt=salt,
+            length=128,
+            n=2 ** 14,
+            r=8,
+            p=1,
+        )
+        expediente = salt.hex()
+        new_ruta = 'BBDD/' + str(expediente) + '.txt'
+        key = kdf.derive(pw.encode())
+        data = JsonMethods.crear_diccionario(nombre, apellidos, id, 2)
+        JsonMethods.escribir_txt(new_ruta, key, iv, data)
+        new_wrap_key = JsonMethods.añadir_acceso(self.__key, key)
+        data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
+        data[0]['Acceso'].append([id, new_wrap_key])
+        return 0
+
+    def lista_doctores(self):
+        print('Seleccione el doctor')
+        data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
+        Accesos = data[0]['Acceso']
+        for i in range(len(Accesos)):
+            print(str(i), '. ID: ', Accesos[i][1])
+        decision = Checks.check_numero_teclado(len(Accesos))
+        id_seleccion = Accesos[decision]
+        return id_seleccion
+
+    def Mis_doctores(self):
+        id_seleccion = self.lista_doctores()
+        id = id_seleccion()[0]
+        wrap_key = id_seleccion[1]
+        key = JsonMethods.leer_acceso(self.__key, wrap_key)
+        ruta = 'BBDD/usuarios.json'
+        data = JsonMethods.obtener_datos(ruta)
+        for i in range(len(data)):
+            if data[i]['ID'] == id:
+                salt = data[i]['salt']
+                iv = data[i]['iv']
+        data = JsonMethods.leer_txt(salt.hex(), key, iv)
+        print(data)

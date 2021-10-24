@@ -57,7 +57,9 @@ class IniciarSesion:
         iv = Checks.json_bytes(data[posicion]['iv'])
         expediente = salt.hex()
         key = IniciarSesion.password(salt)
-        return salt, iv, expediente, key
+        if key == -1:
+            return -1
+        return [salt, iv, expediente, key, id]
 
 
 

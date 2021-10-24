@@ -1,15 +1,20 @@
 '''Clase que contiene la interfaz de nuestra aplicación'''
 
 # Imports
-from stringinterfaz import StringInterfaz
+from interfaces.stringinterfaz import StringInterfaz
 from checks import Checks
 from iniciarsesion import IniciarSesion
 from json_things.jsonmethods import JsonMethods
+from roles.super import Super
+'''
+from roles.doctor import Doctor
+from roles.paciente import Paciente'''
 
 
 class Interfaz:
     def __init__(self):
         self.bucle_principal()
+        self.sujeto = 0
 
     def bucle_principal(self):
         '''Bucle que mantiene la pantalla principal hasta seleccionar 0 (salir)'''
@@ -25,20 +30,30 @@ class Interfaz:
 
             # Si decision == 1 -> Iniciar Sesión
             if decision == 1:
-                salt, iv, expediente, key = IniciarSesion.inicio_sesion()
+                aux = IniciarSesion.inicio_sesion()
+                salt, iv, expediente, key, id = aux
                 ruta = 'BBDD/' + str(expediente) + '.txt'
                 data = JsonMethods.leer_txt(ruta, key, iv)
-                print(data[0]['Nivel'])
+                nombre = data[0]['Nombre'] + ' ' + data[0]['Apellidos']
+                if data != -1:
+                    if data[0]['Nivel'] == str(2):
+                        self.sujeto = Super(id, key, iv, salt, expediente)
+                        self.menu_super(nombre)
+                    elif data[0]['Nivel'] == str(1):
+                        self.sujeto = Super(id, key, iv, salt, expediente)
+                        Interfaz.menu_doctor()
+                    elif data[0]['Nivel'] == str(0):
+                        self.sujeto = Super(id, key, iv, salt, expediente)
+                        Interfaz.menu_paciente()
 
-    @staticmethod
-    def menu_super(super):
+    def menu_super(self, nombre):
         '''Menu del rol super'''
         while True:
-            print('BIENVENIDO ' + super.cuenta['Nombre'] + ' ' + super.cuenta["Apellidos"])
+            print('BIENVENIDO ' + nombre)
             print('¿Qué desea hacer?\n'
                   '0. Log out\n'
-                  '1. Mis pacientes\n'
-                  '2. Buscar paciente\n')
+                  '1. Mis doctores\n'
+                  '2. Añadir doctor\n')
             decision = Checks.check_numero_teclado(2)  # Obtener input
             print(decision)
             # Si decision == 0 -> Atrás
@@ -47,11 +62,11 @@ class Interfaz:
                 break
             # Si decision == 1 -> Mis pacientes
             elif decision == 1:
-                print('aqui')
                 super.paciente(super.lista_pacientes())
             # Si decision == 2 -> Buscar paciente
             elif decision == 2:
-                super.paciente(super.buscar_paciente())
+                self.sujeto.añadir_medico()
+
 
     @staticmethod
     def menu_doctor(doctor):
@@ -75,8 +90,8 @@ class Interfaz:
             # Si decision == 2 -> Buscar paciente
             elif decision == 2:
                 doctor.paciente(doctor.buscar_paciente())
-
-    def menu_paciente(self, paciente):
+    @staticmethod
+    def menu_paciente(paciente):
         '''Menu del rol paciente'''
         while True:
             print('BIENVENIDO ' + paciente.cuenta['Nombre'] + ' ' + paciente.cuenta["Apellidos"])

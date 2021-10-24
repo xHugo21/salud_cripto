@@ -5,9 +5,15 @@ import json
 import base64
 import ast
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from checks import Checks
+from cryptography.hazmat.primitives.keywrap import aes_key_wrap,aes_key_unwrap
 
 
 class JsonMethods:
+    def __init__(self):
+        self.obtener_datos()
+        self.sobreescibir_json()
+
     @staticmethod
     def obtener_datos(ruta):
         '''Método que devuelve los datos almacenados en el JSON introducido en "ruta"'''
@@ -33,7 +39,12 @@ class JsonMethods:
         cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
         decryptor = cipher.decryptor()
         fin = decryptor.update(base64.urlsafe_b64decode(data)) + decryptor.finalize()
-        data = ast.literal_eval(fin.decode())
+        try:
+            data = fin.decode()
+        except UnicodeDecodeError:
+            print('No es correcta la contraseña')
+            return -1
+        data = ast.literal_eval(data)
         return data
 
     @staticmethod
@@ -47,4 +58,44 @@ class JsonMethods:
         f.write(data64)
         f.close()
         return 0
+
+    @staticmethod
+    def crear_expediente(self, salt):
+        expediente = salt.hex()
+        ruta = 'BBDD/'+str(expediente)+'.txt'
+        f = open(ruta, 'w')
+        f.close()
+
+    @staticmethod
+    def crear_diccionario(nombre, apellidos, id, nivel):
+        data = []
+        data[0] = {"Nombre": nombre,
+                   "Apellidos": apellidos,
+                   "ID": id,
+                   "Nivel": str(nivel),
+                   "Acceso": []}
+        return data
+
+    def añadir_usuario(self, id, salt, iv):
+        ruta = 'BBDD/usuarios.json'
+        data = self.obtener_datos(ruta)
+        aux = {
+            "ID": id,
+            "salt": Checks.bytes_json(salt),
+            "iv": Checks.json_bytes(iv)
+        }
+        data.append(aux)
+        self.sobreescibir_json(data, ruta)
+        return 0
+
+    @staticmethod
+    def añadir_acceso(wrapping_key, key_to_wrap):
+         new_key = aes_key_wrap(wrapping_key, key_to_wrap)
+         return new_key
+
+    @staticmethod
+    def leer_acceso(wrapping_key, wrapped_key):
+        return_key = aes_key_unwrap(wrapping_key, wrapped_key)
+        return return_key
+
 
