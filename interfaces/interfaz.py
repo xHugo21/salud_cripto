@@ -62,8 +62,11 @@ class Interfaz:
                 break
             # Si decision == 1 -> Mis pacientes
             elif decision == 1:
-                self.sujeto.mis_doctores()
-            # Si decision == 2 -> Buscar paciente
+                while True:
+                    aux = self.sujeto.mis_doctores()
+                    if aux == -1:
+                        break
+            # Si decision == 2 -> Añadir doctor
             elif decision == 2:
                 self.sujeto.add_doctor()
 

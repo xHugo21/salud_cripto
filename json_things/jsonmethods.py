@@ -13,7 +13,6 @@ class JsonMethods:
     def __init__(self):
         self.obtener_datos()
         self.sobreescibir_json()
-        self.add_usuario()
 
     @staticmethod
     def obtener_datos(ruta):
@@ -69,21 +68,20 @@ class JsonMethods:
 
     @staticmethod
     def crear_diccionario(nombre, apellidos, id, nivel):
-        data = []
-        data[0] = {"Nombre": nombre,
+        data = [{"Nombre": nombre,
                    "Apellidos": apellidos,
                    "ID": id,
                    "Nivel": str(nivel),
-                   "Acceso": []}
+                   "Acceso": []}]
         return data
-
+    @classmethod
     def add_usuario(self, id, salt, iv):
         ruta = 'BBDD/usuarios.json'
         data = self.obtener_datos(ruta)
         aux = {
             "ID": id,
             "salt": Checks.bytes_json(salt),
-            "iv": Checks.json_bytes(iv)
+            "iv": Checks.bytes_json(iv)
         }
         data.append(aux)
         self.sobreescibir_json(data, ruta)

@@ -185,7 +185,7 @@ print(data1)
 
 data = ast.literal_eval(data1)
 print(type(data))'''
-data = JsonMethods.obtener_datos('json_things/cuentas.json')
+'''data = JsonMethods.obtener_datos('json_things/cuentas.json')
 print(data)
 print(type(data))
 print(data[0]['ID'])
@@ -195,7 +195,7 @@ JsonMethods.escribir_txt('BBDD/2b1cddc11e325b1abd68dad5bb4a2429ff2e48214b351fd1e
 data1 = JsonMethods.leer_txt('BBDD/2b1cddc11e325b1abd68dad5bb4a2429ff2e48214b351fd1e5138e8b2d1c801c.txt', key, iv)
 print(data)
 print('tipo int:', type(data))
-print(data == data1)
+print(data == data1)'''
 '''ruta = 'BBDD/usuarios.json'
 data = Json.datos_iniciar_sesion('json_things/cuentas.json')
 data = base64.urlsafe_b64encode(str.encode(str(data))).decode('utf-8').encode()
@@ -205,5 +205,8 @@ cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
 encryptor = cipher.encryptor()
 data = encryptor.update(data) + encryptor.finalize()
 print('data', data)'''
+salt, iv, expediente, key, id = IniciarSesion.inicio_sesion()
+data = JsonMethods.leer_txt('BBDD/' + expediente + '.txt', key, iv)
+print(data)
 
 
