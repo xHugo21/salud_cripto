@@ -208,5 +208,7 @@ print('data', data)'''
 salt, iv, expediente, key, id = IniciarSesion.inicio_sesion()
 data = JsonMethods.leer_txt('BBDD/' + expediente + '.txt', key, iv)
 print(data)
-
+data[0]['Acceso'] = []
+print(data)
+JsonMethods.escribir_txt('BBDD/' + expediente + '.txt', key, iv, data)
 

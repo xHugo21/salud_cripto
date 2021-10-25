@@ -3,35 +3,5 @@
     "ID": "12345678",
     "salt": "KxzdwR4yWxq9aNrVu0okKf8uSCFLNR/R5ROOiy0cgBw=",
     "iv": "9RuTQP4kpC3pH89fc4YaQQ=="
-  },
-  {
-    "ID": "12341234",
-    "salt": "9vS0xY7ZcLlD2waw0VZrNg==",
-    "iv": "g6HiGv57mK5lfXJuHIYl6w=="
-  },
-  {
-    "ID": "12312312",
-    "salt": "zSTFVSXbFnWHvQleL1bZnA==",
-    "iv": "uozLi9mm/6iKnwdvV7Khnw=="
-  },
-  {
-    "ID": "12312312",
-    "salt": "6KOYgKeVtWZnemdNvoGBEg==",
-    "iv": "2goJJO3vbSDDx4qzUCNj6w=="
-  },
-  {
-    "ID": "23456789",
-    "salt": "NOw5GsdNpbvn5Tbi7ueWHA==",
-    "iv": "wKFqLgeH4Yhlt/O50r3QjA=="
-  },
-  {
-    "ID": "87654321",
-    "salt": "TTpcVpuK1HWzRDs5vIPsdw==",
-    "iv": "2zCOr5y3fjAur15ZLmwH8g=="
-  },
-  {
-    "ID": "98765432",
-    "salt": "ZYOGNdzpHGmCIGJpVxG+dw==",
-    "iv": "LrmKK1usZWBDaTE3NL/HQw=="
   }
-]
+  ]

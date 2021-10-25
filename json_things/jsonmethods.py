@@ -88,6 +88,7 @@ class JsonMethods:
                  "Informe": [informe]}]
         return data
 
+    @classmethod
     def add_usuario(self, id, salt, iv):
         '''Método que añade un usuario del JSON de usuarios'''
         ruta = 'BBDD/usuarios.json'
@@ -101,11 +102,13 @@ class JsonMethods:
         self.sobreescibir_json(data, ruta)
         return 0
 
+    @classmethod
     def delete_usuario(self, id):
         '''Método que elimina un usuario del JSON de usuarios'''
         ruta = 'BBDD/usuarios.json'
         data = self.obtener_datos(ruta)
         for i in range(len(data)):
+            print(i)
             if data[i]['ID'] == id:
                 print('pop', data.pop(i))
         self.sobreescibir_json(data, ruta)
