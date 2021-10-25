@@ -45,11 +45,10 @@ class StringInterfaz:
     def ficha_doctor(data):
         print(f'\nFicha del doctor {data[0]["Nombre"]} {data[0]["Apellidos"]}')
         print(f'\tID: {data[0]["ID"]}')
-        cadena = '['
+        print(f'\tPacientes asociados: ')
         for i in range(len(data[0]['Acceso'])):
-            cadena = cadena + data[0]['Acceso'][i] + ', '
-        cadena = cadena + ']'
-        print(f'\tPacientes asociados: {cadena}')
+            print(f'\t\t {data[0]["Acceso"][i][0]}')
+
 
 
     @staticmethod

@@ -39,6 +39,8 @@ class Interfaz:
                 salt, iv, expediente, key, id = aux
                 ruta = 'BBDD/' + str(expediente) + '.txt'
                 data = JsonMethods.leer_txt(ruta, key, iv)
+                if data == -1:
+                    return -1
                 nombre = data[0]['Nombre'] + ' ' + data[0]['Apellidos']
                 if data != -1:
                     if data[0]['Nivel'] == str(2):
