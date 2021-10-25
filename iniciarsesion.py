@@ -1,7 +1,6 @@
 '''Clase que controla el inicio de sesión.'''
 
 # Imports
-from json_things.jsonmethods import JsonMethods
 import json
 from checks import Checks
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC

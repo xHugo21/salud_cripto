@@ -46,6 +46,7 @@ class JsonMethods:
             return -1
         data = ast.literal_eval(data)
         print('Desencriptado con AES256 con modo CTR, longitud de clave: 32')
+        print('Generado: ', data)
         return data
 
     @staticmethod
@@ -59,6 +60,7 @@ class JsonMethods:
         f.write(data64)
         f.close()
         print('Encriptado con AES256 con modo CTR, longitud de clave: 32')
+        print('Generado: ', data64)
         return 0
 
     @staticmethod

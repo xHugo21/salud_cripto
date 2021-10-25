@@ -1,13 +1,8 @@
 '''Clase que contiene el rol "Paciente". Capaz de ver sus pacientes y crear nuevos pacientes'''
 
 # Imports
-from checks import Checks
-import os
-from json_things.jsonmethods import JsonMethods
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from jsonmethods import JsonMethods
 from interfaces.stringinterfaz import StringInterfaz
-from datetime import date
 
 
 class Paciente:
