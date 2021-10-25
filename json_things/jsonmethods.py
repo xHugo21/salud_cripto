@@ -45,6 +45,7 @@ class JsonMethods:
             print('No es correcta la contraseña')
             return -1
         data = ast.literal_eval(data)
+        print('Desencriptado con AES256 con modo CTR, longitud de clave: 32')
         return data
 
     @staticmethod
@@ -57,6 +58,7 @@ class JsonMethods:
         data64 = base64.urlsafe_b64encode(data).decode('utf-8')
         f.write(data64)
         f.close()
+        print('Encriptado con AES256 con modo CTR, longitud de clave: 32')
         return 0
 
     @staticmethod
@@ -124,5 +126,16 @@ class JsonMethods:
         '''Método que hace unwrap de la key introducida empleando la wrapping_key'''
         return_key = aes_key_unwrap(wrapping_key, wrapped_key)
         return return_key
+
+    @classmethod
+    def control_usuarios(self, id):
+        '''Método que añade un usuario del JSON de usuarios'''
+        ruta = 'BBDD/usuarios.json'
+        data = self.obtener_datos(ruta)
+        for i in range(len(data)):
+            if data[i]['ID'] == id:
+                print('Ya existe este paciente, pruebe con otro id')
+                return -1
+        return 0
 
 

@@ -26,6 +26,8 @@ class Doctor:
         nombre = input('\tInsertar nombre: ')
         apellidos = input('\tInsertar apellidos: ')
         id = input('\tInsertar ID: ')
+        if JsonMethods.control_usuarios(id) == -1:
+            return -1
         pw = input('\tInsertar contraseña: ')
         today = date.today()
         day = today.strftime("%b-%d-%Y")

@@ -24,6 +24,8 @@ class Super:
         nombre = input('\tInsertar nombre: ')
         apellidos = input('\tInsertar apellidos: ')
         id = input('\tInsertar ID: ')
+        if JsonMethods.control_usuarios(id) == -1:
+            return -1
         pw = input('\tInsertar contraseña: ')
         salt = os.urandom(16)
         iv = os.urandom(16)

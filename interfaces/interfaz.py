@@ -76,7 +76,9 @@ class Interfaz:
 
             # Si decision == 2 -> Añadir doctor
             elif decision == 2:
-                self.sujeto.add_doctor()
+                if self.sujeto.add_doctor() == -1:
+                    print('\n\t0. Atrás')
+                    Checks.check_numero_teclado(0)
 
             # Si decision == 3 -> Borrar doctor
             elif decision == 3:
@@ -102,7 +104,9 @@ class Interfaz:
 
             # Si decision == 2 -> Añadir paciente
             elif decision == 2:
-                self.sujeto.add_paciente()
+                if self.sujeto.add_paciente() == -1:
+                    print('\n\t0. Atrás')
+                    Checks.check_numero_teclado(0)
 
             # Si decision == 3 -> Borrar paciente
             elif decision == 3:
