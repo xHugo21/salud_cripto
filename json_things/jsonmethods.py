@@ -108,9 +108,8 @@ class JsonMethods:
         ruta = 'BBDD/usuarios.json'
         data = self.obtener_datos(ruta)
         for i in range(len(data)):
-            print(i)
             if data[i]['ID'] == id:
-                print('pop', data.pop(i))
+                data.pop(i)
         self.sobreescibir_json(data, ruta)
         return 0
 
