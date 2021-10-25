@@ -35,28 +35,31 @@ class Interfaz:
             # Si decision == 1 -> Iniciar Sesión
             if decision == 1:
                 print('\nInicio de sesión')
-                aux = IniciarSesion.inicio_sesion()
-                salt, iv, expediente, key, id = aux
+                aux = IniciarSesion.inicio_sesion()  # Llamamos a inicio_sesion para comprobar ID y contraseña
+                salt, iv, expediente, key, id = aux  # Guardamos los valores devueltos necesarios para la encriptación y funcionamiento de la aplicación
                 ruta = 'BBDD/' + str(expediente) + '.txt'
-                data = JsonMethods.leer_txt(ruta, key, iv)
+                data = JsonMethods.leer_txt(ruta, key, iv)  # Leemos y desencriptamos el .txt asociado al usuario
+                # Si leer_txt() devuelve -1 -> error
                 if data == -1:
                     return -1
+
+                # Distinguimos el tipo de usuario que ha iniciado sesión
                 nombre = data[0]['Nombre'] + ' ' + data[0]['Apellidos']
                 if data != -1:
                     if data[0]['Nivel'] == str(2):
-                        self.sujeto = Super(id, key, iv, salt, expediente)
+                        self.sujeto = Super(id, key, iv, salt, expediente)  # Crear objeto super y llamar a su menú
                         self.menu_super(nombre)
                     elif data[0]['Nivel'] == str(1):
-                        self.sujeto = Doctor(id, key, iv, salt, expediente, nombre)
+                        self.sujeto = Doctor(id, key, iv, salt, expediente, nombre)  # Crear objeto doctor y llamar a su menú
                         self.menu_doctor(nombre)
                     elif data[0]['Nivel'] == str(0):
-                        self.sujeto = Paciente(id, key, iv, salt, expediente)
+                        self.sujeto = Paciente(id, key, iv, salt, expediente)  # Crear objeto paciente y llamar a su menú
                         self.menu_paciente(nombre)
 
     def menu_super(self, nombre):
         '''Menu del rol super'''
         while True:
-            StringInterfaz.bucle_super(nombre)
+            StringInterfaz.bucle_super(nombre)  # Llamada a string del bucle
             decision = Checks.check_numero_teclado(3)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
@@ -82,7 +85,7 @@ class Interfaz:
     def menu_doctor(self, nombre):
         '''Menu del rol doctor'''
         while True:
-            StringInterfaz.bucle_doctor(nombre)
+            StringInterfaz.bucle_doctor(nombre)  # Llamada a string del bucle
             decision = Checks.check_numero_teclado(4)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
@@ -111,7 +114,7 @@ class Interfaz:
     def menu_paciente(self, nombre):
         '''Menu del rol paciente'''
         while True:
-            StringInterfaz.bucle_paciente(nombre)
+            StringInterfaz.bucle_paciente(nombre)  # Llamada a string del bucle
             decision = Checks.check_numero_teclado(1)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:

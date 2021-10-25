@@ -32,7 +32,7 @@ class JsonMethods:
 
     @staticmethod
     def leer_txt(ruta, key, iv):
-        '''Método que permite leer un archivo .txt'''
+        '''Método que permite leer un archivo .txt encriptado'''
         f = open(ruta, 'r')
         data = f.read()
         f.close()
@@ -49,7 +49,7 @@ class JsonMethods:
 
     @staticmethod
     def escribir_txt(ruta, key, iv, data):
-        '''Método que permite escribir un archivo .txt'''
+        '''Método que permite escribir un archivo .txt encriptándolo'''
         f = open(ruta, 'w')
         cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
         encryptor = cipher.encryptor()
@@ -61,6 +61,7 @@ class JsonMethods:
 
     @staticmethod
     def crear_expediente(salt):
+        '''Método que permite crear un expediente'''
         expediente = salt.hex()
         ruta = 'BBDD/'+str(expediente)+'.txt'
         f = open(ruta, 'w')
@@ -68,6 +69,7 @@ class JsonMethods:
 
     @staticmethod
     def crear_diccionario_doctor(nombre, apellidos, id, nivel):
+        '''Método que crea el diccionario de un doctor'''
         data = [{"Nombre": nombre,
                    "Apellidos": apellidos,
                    "ID": id,
@@ -77,6 +79,7 @@ class JsonMethods:
 
     @staticmethod
     def crear_diccionario_paciente(nombre, apellidos, id, nivel, id_doctor, informe):
+        '''Método que crea el diccionario de un paciente'''
         data = [{"Nombre": nombre,
                  "Apellidos": apellidos,
                  "ID": id,
@@ -85,8 +88,8 @@ class JsonMethods:
                  "Informe": [informe]}]
         return data
 
-    @classmethod
     def add_usuario(self, id, salt, iv):
+        '''Método que añade un usuario del JSON de usuarios'''
         ruta = 'BBDD/usuarios.json'
         data = self.obtener_datos(ruta)
         aux = {
@@ -98,8 +101,8 @@ class JsonMethods:
         self.sobreescibir_json(data, ruta)
         return 0
 
-    @classmethod
     def delete_usuario(self, id):
+        '''Método que elimina un usuario del JSON de usuarios'''
         ruta = 'BBDD/usuarios.json'
         data = self.obtener_datos(ruta)
         for i in range(len(data)):
@@ -109,12 +112,14 @@ class JsonMethods:
         return 0
 
     @staticmethod
-    def añadir_acceso(wrapping_key, key_to_wrap):
-         new_key = aes_key_wrap(wrapping_key, key_to_wrap)
-         return new_key
+    def add_acceso(wrapping_key, key_to_wrap):
+        '''Método que hace wrap de la key introducida empleando la wrapping_key'''
+        new_key = aes_key_wrap(wrapping_key, key_to_wrap)
+        return new_key
 
     @staticmethod
     def leer_acceso(wrapping_key, wrapped_key):
+        '''Método que hace unwrap de la key introducida empleando la wrapping_key'''
         return_key = aes_key_unwrap(wrapping_key, wrapped_key)
         return return_key
 

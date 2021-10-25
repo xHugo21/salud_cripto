@@ -12,6 +12,7 @@ from datetime import date
 
 class Paciente:
     def __init__(self, id, key, iv, salt, expediente):
+        '''Inicializa los atributos del paciente'''
         self.__id = id
         self.__key = key
         self.__iv = iv

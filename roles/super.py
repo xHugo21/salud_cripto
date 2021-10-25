@@ -11,6 +11,7 @@ from interfaces.stringinterfaz import StringInterfaz
 
 class Super:
     def __init__(self, id, key, iv, salt, expediente):
+        '''Inicializa los atributos del super'''
         self.__id = id
         self.__key = key
         self.__iv = iv
@@ -39,7 +40,7 @@ class Super:
         key = kdf.derive(pw.encode())
         data = JsonMethods.crear_diccionario_doctor(nombre, apellidos, id, 1)
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
-        new_wrap_key = JsonMethods.añadir_acceso(self.__key, key)
+        new_wrap_key = JsonMethods.add_acceso(self.__key, key)
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
         data[0]['Acceso'].append([id, new_wrap_key])
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)

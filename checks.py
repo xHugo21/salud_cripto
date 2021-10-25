@@ -8,8 +8,11 @@ class Checks:
 
     @classmethod
     def check_numero_teclado(cls, maximum=1):
+        '''Permite al usuario seleccionar opciones y las comprueba'''
+        # Si hay más de una opción
         if maximum > 0:
             input_number = input('[0 - ' + str(maximum) + ']: ')  # Mensaje input
+        # Si solo hay una opción
         else:
             input_number = input('[0]: ')  # Mensaje input
 

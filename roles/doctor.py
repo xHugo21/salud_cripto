@@ -12,6 +12,7 @@ from datetime import date
 
 class Doctor:
     def __init__(self, id, key, iv, salt, expediente, nombre_doctor):
+        '''Inicializa los atributos del doctor'''
         self.__id = id
         self.__key = key
         self.__iv = iv
@@ -20,7 +21,7 @@ class Doctor:
         self.__nombre_doctor = nombre_doctor
 
     def add_paciente(self):
-        '''Método que permite añadir paciente'''
+        '''Método que permite añadir un paciente nuevo'''
         print('\nNuevo paciente')
         nombre = input('\tInsertar nombre: ')
         apellidos = input('\tInsertar apellidos: ')
@@ -45,14 +46,14 @@ class Doctor:
         doctor = self.__nombre_doctor + ' [' + str(self.__id) + ']'
         data = JsonMethods.crear_diccionario_paciente(nombre, apellidos, id, 0, doctor , informe)
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
-        new_wrap_key = JsonMethods.añadir_acceso(self.__key, key)
+        new_wrap_key = JsonMethods.add_acceso(self.__key, key)
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
         data[0]['Acceso'].append([id, new_wrap_key])
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
         return 0
 
     def seleccion_paciente(self):
-        '''Lista los paciente y devuelve el ID del paciente seleccionado'''
+        '''Lista los pacientes y devuelve el ID del paciente seleccionado'''
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
         Accesos = data[0]['Acceso']
         print('\t0. Atrás')
@@ -86,7 +87,7 @@ class Doctor:
         return 0
 
     def borrar_paciente(self):
-        '''Método que permite borrar paciente'''
+        '''Método que permite borrar un paciente'''
         print('\nSeleccione el paciente para borrar')
         ruta = 'BBDD/usuarios.json'
         data = JsonMethods.obtener_datos(ruta)
@@ -108,7 +109,7 @@ class Doctor:
         return -1
 
     def add_informe(self):
-        '''Metodo que permite añadir otro apartado al informe'''
+        '''Metodo que permite añadir un nuevo informe a un paciente'''
         print('\nSeleccione el paciente al que quiere añadir un informe')
         id_seleccion = self.seleccion_paciente()
         if id_seleccion == -1:
