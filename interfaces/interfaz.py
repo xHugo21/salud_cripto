@@ -7,6 +7,7 @@ from iniciarsesion import IniciarSesion
 from json_things.jsonmethods import JsonMethods
 from roles.super import Super
 from roles.doctor import Doctor
+from roles.paciente import Paciente
 import os
 
 '''
@@ -44,10 +45,10 @@ class Interfaz:
                         self.sujeto = Super(id, key, iv, salt, expediente)
                         self.menu_super(nombre)
                     elif data[0]['Nivel'] == str(1):
-                        self.sujeto = Doctor(id, key, iv, salt, expediente)
+                        self.sujeto = Doctor(id, key, iv, salt, expediente, nombre)
                         self.menu_doctor(nombre)
                     elif data[0]['Nivel'] == str(0):
-                        self.sujeto = Super(id, key, iv, salt, expediente)
+                        self.sujeto = Paciente(id, key, iv, salt, expediente)
                         self.menu_paciente(nombre)
 
     def menu_super(self, nombre):
@@ -80,7 +81,7 @@ class Interfaz:
         '''Menu del rol doctor'''
         while True:
             StringInterfaz.bucle_doctor(nombre)
-            decision = Checks.check_numero_teclado(3)  # Obtener input
+            decision = Checks.check_numero_teclado(4)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
@@ -101,6 +102,10 @@ class Interfaz:
             elif decision == 3:
                 self.sujeto.borrar_paciente()
 
+            # Si decision == 4 -> Añadir informe
+            elif decision == 4:
+                self.sujeto.add_informe()
+
     def menu_paciente(self, nombre):
         '''Menu del rol paciente'''
         while True:
@@ -112,7 +117,9 @@ class Interfaz:
                 break
             # Si decision == 1 -> Mi informe
             elif decision == 1:
-                self.sujeto.mi_informe()
+                if self.sujeto.mi_informe() != -1:
+                    print('\n\t0. Atrás')
+                    Checks.check_numero_teclado(0)
 
 
 

@@ -82,7 +82,7 @@ class JsonMethods:
                  "ID": id,
                  "Nivel": str(nivel),
                  "ID_Doctor": id_doctor,
-                 "Informe": informe}]
+                 "Informe": [informe]}]
         return data
 
     @classmethod

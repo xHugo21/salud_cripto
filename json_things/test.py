@@ -1,7 +1,7 @@
 '''import os
 import json
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-json_file = open("json_things/cuentas.json")
+json_file = open("json_things/pruebas.json")
 data = str(json.load(json_file))
 print(type(data))
 add = b'Aqui estamos'
@@ -25,7 +25,7 @@ print(auix)'''
 
 binarydata = b'MN\\\xde\xa1'
 import json
-json_file = open("json_things/cuentas.json")
+json_file = open("json_things/pruebas.json")
 hola = str(json.load(json_file))
 hola = 'La'
 codificao = str.encode(hola)
@@ -52,7 +52,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import json
 import base64
 from checks import Checks
-json_file = open("json_things/cuentas.json")
+json_file = open("json_things/pruebas.json")
 Palabra = 'Secreto'
 codificao = base64.urlsafe_b64encode(str.encode(Palabra))
 print('codifiaco', codificao)
@@ -185,7 +185,7 @@ print(data1)
 
 data = ast.literal_eval(data1)
 print(type(data))'''
-'''data = JsonMethods.obtener_datos('json_things/cuentas.json')
+'''data = JsonMethods.obtener_datos('json_things/pruebas.json')
 print(data)
 print(type(data))
 print(data[0]['ID'])
@@ -197,7 +197,7 @@ print(data)
 print('tipo int:', type(data))
 print(data == data1)'''
 '''ruta = 'BBDD/usuarios.json'
-data = Json.datos_iniciar_sesion('json_things/cuentas.json')
+data = Json.datos_iniciar_sesion('json_things/pruebas.json')
 data = base64.urlsafe_b64encode(str.encode(str(data))).decode('utf-8').encode()
 print('data', data)
 salt, iv, expedinte, key = IniciarSesion.inicio_sesion()

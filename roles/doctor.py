@@ -7,15 +7,17 @@ from json_things.jsonmethods import JsonMethods
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from interfaces.stringinterfaz import StringInterfaz
+from datetime import date
 
 
 class Doctor:
-    def __init__(self, id, key, iv, salt, expediente):
+    def __init__(self, id, key, iv, salt, expediente, nombre_doctor):
         self.__id = id
         self.__key = key
         self.__iv = iv
         self.__salt = salt
         self.__expediente = expediente
+        self.__nombre_doctor = nombre_doctor
 
     def add_paciente(self):
         '''Método que permite añadir paciente'''
@@ -24,7 +26,9 @@ class Doctor:
         apellidos = input('\tInsertar apellidos: ')
         id = input('\tInsertar ID: ')
         pw = input('\tInsertar contraseña: ')
-        informe = input('\tInsertar informe: \n\t')
+        today = date.today()
+        day = today.strftime("%b-%d-%Y")
+        informe = day+ ' -> '  + input('\tInsertar informe: \n\t')
         salt = os.urandom(16)
         iv = os.urandom(16)
         JsonMethods.crear_expediente(salt)
@@ -38,7 +42,8 @@ class Doctor:
         expediente = salt.hex()
         new_ruta = 'BBDD/' + str(expediente) + '.txt'
         key = kdf.derive(pw.encode())
-        data = JsonMethods.crear_diccionario_paciente(nombre, apellidos, id, 1, self.__id, informe)
+        doctor = self.__nombre_doctor + ' [' + str(self.__id) + ']'
+        data = JsonMethods.crear_diccionario_paciente(nombre, apellidos, id, 0, doctor , informe)
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
         new_wrap_key = JsonMethods.añadir_acceso(self.__key, key)
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
@@ -101,3 +106,29 @@ class Doctor:
                 data[0]['Acceso'].pop(i)
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
         return -1
+
+    def add_informe(self):
+        '''Metodo que permite añadir otro apartado al informe'''
+        print('\nSeleccione el paciente al que quiere añadir un informe')
+        id_seleccion = self.seleccion_paciente()
+        if id_seleccion == -1:
+            return -1
+        id = id_seleccion[0]
+        wrap_key = id_seleccion[1]
+        key = JsonMethods.leer_acceso(self.__key, wrap_key)
+        ruta = 'BBDD/usuarios.json'
+        data = JsonMethods.obtener_datos(ruta)
+        for i in range(len(data)):
+            if data[i]['ID'] == id:
+                salt = data[i]['salt']
+                iv = data[i]['iv']
+        salt = Checks.json_bytes(salt)
+        iv = Checks.json_bytes(iv)
+        data = JsonMethods.leer_txt('BBDD/' + salt.hex() + '.txt', key, iv)
+        StringInterfaz.ficha_paciente(data)
+        today = date.today()
+        day = today.strftime("%b-%d-%Y")
+        informe = day + ' -> ' + input('\tInsertar informe: \n\t')
+        data[0]['Informe'].append(informe)
+        JsonMethods.escribir_txt('BBDD/' + salt.hex() + '.txt', key, iv, data)
+        return 0

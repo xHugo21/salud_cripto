@@ -30,7 +30,8 @@ class StringInterfaz:
               '\t0. Log out\n'
               '\t1. Lista pacientes\n'
               '\t2. Añadir paciente\n'
-              '\t3. Borrar paciente')
+              '\t3. Borrar paciente\n'
+              '\t4. Añadir informe')
 
     @staticmethod
     def bucle_paciente(nombre):
@@ -55,8 +56,10 @@ class StringInterfaz:
     def ficha_paciente(data):
         print(f'\nFicha del paciente {data[0]["Nombre"]} {data[0]["Apellidos"]}')
         print(f'\tID: {data[0]["ID"]}')
-        print(f'\tDoctor asociado:{data[0]["ID_Doctor"]}')
-        print(f'\tInforme: {data[0]["Informe"]}')
+        print(f'\tDoctor asociado: {data[0]["ID_Doctor"]}')
+        print('\tInforme:')
+        for i in range(len(data[0]['Informe'])):
+            print(f'\t\t {data[0]["Informe"][i]}')
 
 
 
