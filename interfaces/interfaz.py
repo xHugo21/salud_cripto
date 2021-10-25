@@ -8,7 +8,6 @@ from json_things.jsonmethods import JsonMethods
 from roles.super import Super
 from roles.doctor import Doctor
 from roles.paciente import Paciente
-import os
 
 '''
 from roles.doctor import Doctor
@@ -35,7 +34,9 @@ class Interfaz:
             # Si decision == 1 -> Iniciar Sesión
             if decision == 1:
                 print('\nInicio de sesión')
-                aux = IniciarSesion.inicio_sesion()  # Llamamos a inicio_sesion para comprobar ID y contraseña
+                aux = IniciarSesion.inicio_sesion()
+                if aux == -1:
+                    break # Llamamos a inicio_sesion para comprobar ID y contraseña
                 salt, iv, expediente, key, id = aux  # Guardamos los valores devueltos necesarios para la encriptación y funcionamiento de la aplicación
                 ruta = 'BBDD/' + str(expediente) + '.txt'
                 data = JsonMethods.leer_txt(ruta, key, iv)  # Leemos y desencriptamos el .txt asociado al usuario
