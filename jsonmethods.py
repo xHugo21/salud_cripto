@@ -56,7 +56,13 @@ class JsonMethods:
         cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
         encryptor = cipher.encryptor()
         data = encryptor.update(str(data).encode()) + encryptor.finalize()
-        data64 = base64.urlsafe_b64encode(data).decode('utf-8')
+
+        h = hmac_u.HMAC(key, hashes.SHA256())
+        h.update(data)
+        hmac = h.finalize()
+        data64 = base64.urlsafe_b64encode(data + sep + hmac).decode('utf-8')
+
+        #data64 = base64.urlsafe_b64encode(data).decode('utf-8')
         f.write(data64)
         f.close()
         print('Encriptado con AES256 con modo CTR, longitud de clave: 32')
