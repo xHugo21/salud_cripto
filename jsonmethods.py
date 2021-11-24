@@ -1,12 +1,16 @@
 '''Clase que contiene métodos para manejar los archivos JSON'''
 
 # Imports
+import hmac
 import json
 import base64
 import ast
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from checks import Checks
 from cryptography.hazmat.primitives.keywrap import aes_key_wrap,aes_key_unwrap
+from cryptography.hazmat.primitives import hashes
+import cryptography.hazmat.primitives.hmac as hmac_u
+from cryptography.exceptions import InvalidSignature
 
 
 class JsonMethods:
@@ -34,11 +38,24 @@ class JsonMethods:
     def leer_txt(ruta, key, iv):
         '''Método que permite leer un archivo .txt encriptado'''
         f = open(ruta, 'r')
+        sep = b'??a??'
         data = f.read()
         f.close()
         cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
         decryptor = cipher.decryptor()
-        fin = decryptor.update(base64.urlsafe_b64decode(data)) + decryptor.finalize()
+        fin = base64.urlsafe_b64decode(data)
+        dataf = fin[:fin.index(sep)]
+        hmacf = fin[(fin.index(sep) + 5):]
+        h = hmac_u.HMAC(key, hashes.SHA256())
+        h.update(dataf)
+        #dataf = fin #quitar esta linea
+        try:
+            h.verify(hmacf)
+        except InvalidSignature:
+            print('No es correcta la contraseña (HMAC)')
+            return -1
+
+        fin = decryptor.update(dataf) + decryptor.finalize()
         try:
             data = fin.decode()
         except UnicodeDecodeError:
@@ -49,8 +66,10 @@ class JsonMethods:
         print('Generado: ', data)
         return data
 
+
     @staticmethod
     def escribir_txt(ruta, key, iv, data):
+        sep = b'??a??'
         '''Método que permite escribir un archivo .txt encriptándolo'''
         f = open(ruta, 'w')
         cipher = Cipher(algorithms.AES(key), modes.CTR(iv))
@@ -80,11 +99,13 @@ class JsonMethods:
     @staticmethod
     def crear_diccionario_doctor(nombre, apellidos, id, nivel):
         '''Método que crea el diccionario de un doctor'''
+
         data = [{"Nombre": nombre,
                    "Apellidos": apellidos,
                    "ID": id,
                    "Nivel": str(nivel),
                    "Acceso": []}]
+        print(data)
         return data
 
     @staticmethod
