@@ -9,6 +9,8 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from interfaces.stringinterfaz import StringInterfaz
 
 
+
+
 class Super:
     def __init__(self, id, key, iv, salt, expediente):
         '''Inicializa los atributos del super'''
@@ -103,6 +105,7 @@ class Super:
                 data[0]['Acceso'].pop(i)
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
         return -1
+
 
 
 

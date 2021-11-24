@@ -46,6 +46,7 @@ class Interfaz:
 
                 # Distinguimos el tipo de usuario que ha iniciado sesión
                 nombre = data[0]['Nombre'] + ' ' + data[0]['Apellidos']
+                priv_key = data[0]["Priv_key"]
                 if data != -1:
                     if data[0]['Nivel'] == str(2):
                         self.sujeto = Super(id, key, iv, salt, expediente)  # Crear objeto super y llamar a su menú
