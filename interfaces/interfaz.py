@@ -89,7 +89,7 @@ class Interfaz:
         '''Menu del rol doctor'''
         while True:
             StringInterfaz.bucle_doctor(nombre)  # Llamada a string del bucle
-            decision = Checks.check_numero_teclado(4)  # Obtener input
+            decision = Checks.check_numero_teclado(5)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
@@ -116,11 +116,15 @@ class Interfaz:
             elif decision == 4:
                 self.sujeto.add_informe()
 
+            # Si decision == 5 -> Dispensar receta
+            elif decision == 5:
+                self.sujeto.dispensar_receta()
+
     def menu_paciente(self, nombre):
         '''Menu del rol paciente'''
         while True:
             StringInterfaz.bucle_paciente(nombre)  # Llamada a string del bucle
-            decision = Checks.check_numero_teclado(1)  # Obtener input
+            decision = Checks.check_numero_teclado(2)  # Obtener input
             # Si decision == 0 -> Log out
             if decision == 0:
                 print('\nCerrando sesión\n')
@@ -130,6 +134,10 @@ class Interfaz:
                 if self.sujeto.mi_informe() != -1:
                     print('\n\t0. Atrás')
                     Checks.check_numero_teclado(0)
+
+            # Si decision == 2 -> Ver recetas
+            elif decision == 2:
+                self.sujeto.mis_recetas()
 
 
 

@@ -34,7 +34,8 @@ class StringInterfaz:
               '\t1. Lista pacientes\n'
               '\t2. Añadir paciente\n'
               '\t3. Borrar paciente\n'
-              '\t4. Añadir informe')
+              '\t4. Añadir informe\n'
+              '\t5. Dispensar receta')
 
     @staticmethod
     def bucle_paciente(nombre):
@@ -43,7 +44,8 @@ class StringInterfaz:
         print('Se ha identificado como ' + nombre + ' [Paciente]')
         print('\n¿Qué desea hacer?\n'
               '\t0. Log out\n'
-              '\t1. Mis informes')
+              '\t1. Mis informes\n'
+              '\t2. Mis recetas')
 
     @staticmethod
     def ficha_doctor(data):

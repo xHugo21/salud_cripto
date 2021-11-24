@@ -19,3 +19,7 @@ class Paciente:
         data = JsonMethods.leer_txt('BBDD/' + self.__salt.hex() + '.txt', self.__key, self.__iv)
         StringInterfaz.ficha_paciente(data)
         return 0
+
+    def mis_recetas(self):
+        '''Método que permite ver las recetas asociadas al paciente. Utiliza cifrado asimétrico'''
+        pass

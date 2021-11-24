@@ -135,3 +135,7 @@ class Doctor:
         data[0]['Informe'].append(informe)
         JsonMethods.escribir_txt('BBDD/' + salt.hex() + '.txt', key, iv, data)
         return 0
+
+    def dispensar_receta(self):
+        '''Metodo que permite a un doctor dispensar una receta para un paciente. Se emplea cifrado asimétrico.'''
+        pass
