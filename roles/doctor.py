@@ -140,4 +140,50 @@ class Doctor:
 
     def dispensar_receta(self):
         '''Metodo que permite a un doctor dispensar una receta para un paciente. Se emplea cifrado asimétrico.'''
-        pass
+        print('\nSeleccione el paciente al que quiere añadir una receta')
+        id_seleccion = self.seleccion_paciente()
+        if id_seleccion == -1:
+            return -1
+        id = id_seleccion[0]
+        wrap_key = id_seleccion[1]
+        key = JsonMethods.leer_acceso(self.__key, wrap_key)
+        ruta = 'BBDD/usuarios.json'
+        data = JsonMethods.obtener_datos(ruta)
+        for i in range(len(data)):
+            if data[i]['ID'] == id:
+                salt = data[i]['salt']
+                iv = data[i]['iv']
+        salt = Checks.json_bytes(salt)
+        iv = Checks.json_bytes(iv)
+        data = JsonMethods.leer_txt('BBDD/' + salt.hex() + '.txt', key, iv)
+        StringInterfaz.ficha_paciente(data)
+        today = date.today()
+        day = today.strftime("%b-%d-%Y")
+        id_nueva_receta = 'R' + data[0]["ID"] + str(len(data[0]["Recetas"]))
+        medicamento = input('\tInsertar medicamento: \n\t')
+        tratamiento = input('\tInsertar tratamiento: \n\t')
+        receta = [{"Id_receta": id_nueva_receta,
+                   "Paciente": data[0]["Nombre"] + data[0]["Apellidos"],
+                   "Doctor": self.__nombre_doctor,
+                   "Fecha": day,
+                   "Medicamento": medicamento,
+                   "Tratamiento": tratamiento}]
+        receta_bytes = [id_nueva_receta, receta, self.generate_signature(receta, id_nueva_receta)]
+        data[0]['Recetas'].append(receta_bytes)
+        JsonMethods.escribir_txt('BBDD/' + salt.hex() + '.txt', key, iv, data)
+
+        signature = self.generate_signature(receta)
+
+        return 0
+
+    def generate_signature(self, receta, id_receta):
+        private_key = ec.generate_private_key(ec.SECP384R1)
+        signature  = private_key.sign(receta, ec.ECDSA(hashes.SHA256()))
+        public_key = private_key.public_key()
+        public_key_bytes = public_key.public_bytes(Encoding.PEM,
+                                                   PrivateFormat.TraditionalOpenSSL)
+
+
+        return signature
+
+

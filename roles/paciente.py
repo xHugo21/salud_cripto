@@ -22,4 +22,7 @@ class Paciente:
 
     def mis_recetas(self):
         '''Método que permite ver las recetas asociadas al paciente. Utiliza cifrado asimétrico'''
-        pass
+        ruta = 'BBDD/recetas.json'
+        data = JsonMethods.obtener_datos(ruta)
+        for i in data:
+            if data[i][1][]
