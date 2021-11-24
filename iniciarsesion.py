@@ -27,31 +27,17 @@ class IniciarSesion:
         # Comprobamos si existe (3 intentos)
         while existe is False and intentos < 3:
             id = input('\tEscriba su ID (' + str(3 - intentos) + ' intentos restantes): ')  # Pedir id
-
             # Comprobar tipo de id es entero
             try:
                 id = int(id)
                 if isinstance(id, int):
                     # Recorremos el json en busca del usuario
                     for i in range(len(data)):
-                        print(i)
-                        print(len(data))
-                        print(type(data))
-                        print(range(len(data)))
-                        # Si lo encuentra -> existe = True y posicion = i
-
-                        print(type(int(id)))
-                        print('aqui')
-                        print(data[i]["ID"])
-                        print(type(data[i]["ID"]))
-                        print(i)
                         if int(id) == int(data[i]["ID"]):
-                            print('Lo encuentra')
                             existe = True
                             posicion = i
             # Si no es entero devolver el siguiente mensaje
             except ValueError:
-                print(ValueError)
                 print("Introduzca un número como ID")
 
             intentos += 1  # Si no lo ha encontrado aumentamos el número de intentos

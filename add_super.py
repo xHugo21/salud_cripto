@@ -29,5 +29,5 @@ class MaxSuper:
         key = kdf.derive(pw.encode())
         data = JsonMethods.crear_diccionario_doctor(nombre, apellidos, id, 2)
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
-        print('TODO OK JOSE LUIS')
+        print('Perfil de super creado, no se olvide de cambiar el modo en main.py')
         return 0
