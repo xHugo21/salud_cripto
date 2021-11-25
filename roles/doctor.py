@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from interfaces.stringinterfaz import StringInterfaz
 from datetime import date
 from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat, KeySerializationEncryption
+from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 
 class Doctor:
@@ -59,14 +59,14 @@ class Doctor:
     def seleccion_paciente(self):
         '''Lista los pacientes y devuelve el ID del paciente seleccionado'''
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
-        Accesos = data[0]['Acceso']
+        accesos = data[0]['Acceso']
         print('\t0. Atrás')
-        for i in range(len(Accesos)):
-            print(f'\t{str(i + 1)}. ID: {Accesos[i][0]}')
-        decision = Checks.check_numero_teclado(len(Accesos))
+        for i in range(len(accesos)):
+            print(f'\t{str(i + 1)}. ID: {accesos[i][0]}')
+        decision = Checks.check_numero_teclado(len(accesos))
         if decision == 0:
             return -1
-        id_seleccion = Accesos[decision - 1]
+        id_seleccion = accesos[decision - 1]
         return id_seleccion
 
     def mis_pacientes(self):
@@ -163,7 +163,7 @@ class Doctor:
         medicamento = input('\tInsertar medicamento: \n\t')
         tratamiento = input('\tInsertar tratamiento: \n\t')
         receta = [{"Id_receta": id_nueva_receta,
-                   "Paciente": data[0]["Nombre"] + data[0]["Apellidos"],
+                   "Paciente": data[0]["Nombre"] + ' ' + data[0]["Apellidos"],
                    "Doctor": self.__nombre_doctor,
                    "Fecha": day,
                    "Medicamento": medicamento,
@@ -171,19 +171,17 @@ class Doctor:
         receta_bytes = [id_nueva_receta, receta, self.generate_signature(receta, id_nueva_receta)]
         data[0]['Recetas'].append(receta_bytes)
         JsonMethods.escribir_txt('BBDD/' + salt.hex() + '.txt', key, iv, data)
-
-        signature = self.generate_signature(receta)
-
         return 0
 
     def generate_signature(self, receta, id_receta):
         private_key = ec.generate_private_key(ec.SECP384R1)
-        signature  = private_key.sign(receta, ec.ECDSA(hashes.SHA256()))
+        receta_bytes = Checks.json_bytes_recetas(str(receta[0]).encode())
+        signature = private_key.sign(receta_bytes, ec.ECDSA(hashes.SHA256()))
         public_key = private_key.public_key()
-        public_key_bytes = public_key.public_bytes(Encoding.PEM,
-                                                   PrivateFormat.TraditionalOpenSSL)
-
-
+        print('public_key')
+        print(public_key)
+        public_key_bytes = public_key.public_bytes(Encoding.OpenSSH, PublicFormat.OpenSSH)
+        print('public_key_bytes')
+        print(public_key_bytes)
+        JsonMethods.add_publickey(id_receta, public_key_bytes)
         return signature
-
-

@@ -31,6 +31,14 @@ class Checks:
 
     @classmethod
     def json_bytes(cls, token):
+        print('---TOKEN: ')
+        print(token)
+        print(type(token))
         salt = b64decode(token)
+        print(salt)
         return salt
+
+    @classmethod
+    def json_bytes_recetas(cls, receta):
+        return str(receta).encode()
 

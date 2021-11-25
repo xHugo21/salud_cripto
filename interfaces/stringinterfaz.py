@@ -68,6 +68,24 @@ class StringInterfaz:
         for i in range(len(data[0]['Informe'])):
             print(f'\t\t {data[0]["Informe"][i]}')
 
+    @staticmethod
+    def mis_recetas(data):
+        print(f'\nRecetas del paciente {data[0]["Nombre"]} {data[0]["Apellidos"]}')
+        print(f'\tID: {data[0]["ID"]}')
+        print('\tRecetas (Seleccionar receta para comprobar su valided):')
+        for i in range(len(data[0]['Recetas'])):
+            print(f'\t\t {data[0]["Recetas"][i]}')
+
+    @staticmethod
+    def interfaz_recetas(receta):
+        '''String para mostrar la información de la receta'''
+        print(f'\nRECETA con id {receta[0]["Id_receta"]}')
+        print(f'\tPaciente: {receta[0]["Paciente"]}')
+        print(f'\tDoctor: {receta[0]["Doctor"]}')
+        print(f'\tFecha: {receta[0]["Fecha"]}')
+        print(f'\tMedicamento recetado: {receta[0]["Medicamento"]}')
+        print(f'\tTratamiento: {receta[0]["Tratamiento"]}')
+
 
 
     @staticmethod

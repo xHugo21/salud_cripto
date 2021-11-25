@@ -97,7 +97,7 @@ class JsonMethods:
         f.close()
 
     @staticmethod
-    def crear_diccionario_doctor(nombre, apellidos, id, nivel, priv_key):
+    def crear_diccionario_doctor(nombre, apellidos, id, nivel):
         '''Método que crea el diccionario de un doctor'''
 
         data = [{"Nombre": nombre,

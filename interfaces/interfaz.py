@@ -46,7 +46,6 @@ class Interfaz:
 
                 # Distinguimos el tipo de usuario que ha iniciado sesión
                 nombre = data[0]['Nombre'] + ' ' + data[0]['Apellidos']
-                priv_key = data[0]["Priv_key"]
                 if data != -1:
                     if data[0]['Nivel'] == str(2):
                         self.sujeto = Super(id, key, iv, salt, expediente)  # Crear objeto super y llamar a su menú
@@ -138,7 +137,9 @@ class Interfaz:
 
             # Si decision == 2 -> Ver recetas
             elif decision == 2:
-                self.sujeto.mis_recetas()
+                if self.sujeto.mis_recetas() != -1:
+                    print('\n\t0. Atrás')
+                    Checks.check_numero_teclado(0)
 
 
 
