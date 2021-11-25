@@ -50,6 +50,7 @@ class StringInterfaz:
     @staticmethod
     def ficha_doctor(data):
         '''String que muestra la ficha de uno de los doctores al seleccionarlo desde la lista de doctores de super'''
+        print('\n' * 80)
         print(f'\nFicha del doctor {data[0]["Nombre"]} {data[0]["Apellidos"]}')
         print(f'\tID: {data[0]["ID"]}')
         print(f'\tPacientes asociados: ')
@@ -61,6 +62,7 @@ class StringInterfaz:
     @staticmethod
     def ficha_paciente(data):
         '''String que muestra la ficha de uno de los pacientes al seleccionarlo desde la lista de pacientes de un doctor'''
+        print('\n' * 80)
         print(f'\nFicha del paciente {data[0]["Nombre"]} {data[0]["Apellidos"]}')
         print(f'\tID: {data[0]["ID"]}')
         print(f'\tDoctor asociado: {data[0]["ID_Doctor"]}')
@@ -70,6 +72,7 @@ class StringInterfaz:
 
     @staticmethod
     def mis_recetas(data):
+        print('\n' * 80)
         print(f'\nRecetas del paciente {data[0]["Nombre"]} {data[0]["Apellidos"]}')
         print(f'\tID: {data[0]["ID"]}')
         print('\tRecetas (Seleccionar receta para comprobar su valided):')
@@ -79,7 +82,8 @@ class StringInterfaz:
     @staticmethod
     def interfaz_recetas(receta):
         '''String para mostrar la información de la receta'''
-        print(f'\nRECETA con id {receta[0]["Id_receta"]}')
+        print('\n' * 80)
+        print(f'\nReceta con id {receta[0]["Id_receta"]}')
         print(f'\tPaciente: {receta[0]["Paciente"]}')
         print(f'\tDoctor: {receta[0]["Doctor"]}')
         print(f'\tFecha: {receta[0]["Fecha"]}')

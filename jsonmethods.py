@@ -136,7 +136,7 @@ class JsonMethods:
 
     @classmethod
     def add_publickey(self, id_receta, key):
-        '''Método que añade una receta al JSON de recetas'''
+        '''Método que añade una clave publica al JSON de claves publicas'''
         ruta = 'BBDD/publickeys.json'
         data = self.obtener_datos(ruta)
         aux = {
