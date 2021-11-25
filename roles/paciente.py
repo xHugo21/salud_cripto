@@ -7,8 +7,8 @@ from checks import Checks
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives.serialization import load_ssh_public_key
-
+from cryptography.hazmat.primitives.serialization import load_pem_public_key
+from base64 import b64decode
 
 class Paciente:
     def __init__(self, id, key, iv, salt, expediente):
@@ -38,21 +38,16 @@ class Paciente:
         data = JsonMethods.obtener_datos(ruta)
         for i in range(len(data)):
             if data[i]["ID_receta"] == id_receta:
-                print(data[i]["PublicKey"])
-                public_key_bytes = data[i]["PublicKey"].encode()
-                print(type(public_key_bytes))
-        obj = ec.EllipticCurvePublicKey
-        #public_key = obj.from_encoded_point(ec.SECP384R1, public_key_bytes)
-        public_key = load_ssh_public_key(public_key_bytes)
+                public_key_bytes = data[i]["PublicKey"]
+        public_key_new = load_pem_public_key(b64decode(public_key_bytes))
         try:
-            data_receta = Checks.json_bytes_recetas(str(receta))
-            print(data_receta)
-            print(type(data_receta))
-            public_key.verify(signature, data_receta, ec.ECDSA(hashes.SHA256()))
+            data_receta = (str(receta)).encode()
+            public_key_new.verify(signature, data_receta, ec.ECDSA(hashes.SHA256()))
         except InvalidSignature:
             print('No se ha podido validar la receta ')
-            return -1
+            return -2
         print('Esta receta es valida')
+
         return 0
 
 

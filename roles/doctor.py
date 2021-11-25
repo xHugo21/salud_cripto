@@ -10,7 +10,7 @@ from interfaces.stringinterfaz import StringInterfaz
 from datetime import date
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
-
+from base64 import b64encode
 
 class Doctor:
     def __init__(self, id, key, iv, salt, expediente, nombre_doctor):
@@ -33,7 +33,7 @@ class Doctor:
         pw = input('\tInsertar contraseña: ')
         today = date.today()
         day = today.strftime("%b-%d-%Y")
-        informe = day+ ' -> '  + input('\tInsertar informe: \n\t')
+        informe = day + ' -> ' + input('\tInsertar informe: \n\t')
         salt = os.urandom(16)
         iv = os.urandom(16)
         JsonMethods.crear_expediente(salt)
@@ -48,7 +48,7 @@ class Doctor:
         new_ruta = 'BBDD/' + str(expediente) + '.txt'
         key = kdf.derive(pw.encode())
         doctor = self.__nombre_doctor + ' [' + str(self.__id) + ']'
-        data = JsonMethods.crear_diccionario_paciente(nombre, apellidos, id, 0, doctor , informe)
+        data = JsonMethods.crear_diccionario_paciente(nombre, apellidos, id, 0, doctor, informe)
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
         new_wrap_key = JsonMethods.add_acceso(self.__key, key)
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
@@ -175,13 +175,10 @@ class Doctor:
 
     def generate_signature(self, receta, id_receta):
         private_key = ec.generate_private_key(ec.SECP384R1)
-        receta_bytes = Checks.json_bytes_recetas(str(receta[0]).encode())
+        receta_bytes = str(receta).encode()
         signature = private_key.sign(receta_bytes, ec.ECDSA(hashes.SHA256()))
         public_key = private_key.public_key()
-        print('public_key')
-        print(public_key)
-        public_key_bytes = public_key.public_bytes(Encoding.OpenSSH, PublicFormat.OpenSSH)
-        print('public_key_bytes')
-        print(public_key_bytes)
+        public_key_bytes = public_key.public_bytes(Encoding.PEM, PublicFormat.SubjectPublicKeyInfo)
+        public_key_bytes = b64encode(public_key_bytes).decode('utf-8')
         JsonMethods.add_publickey(id_receta, public_key_bytes)
         return signature

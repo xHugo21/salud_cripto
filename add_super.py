@@ -31,3 +31,5 @@ class MaxSuper:
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
         print('Perfil de super creado, no se olvide de cambiar el modo en main.py')
         return 0
+
+

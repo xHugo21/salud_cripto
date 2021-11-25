@@ -135,27 +135,13 @@ class JsonMethods:
         return 0
 
     @classmethod
-    def add_receta(self, id_receta, receta, signature):
-        '''Método que añade una receta al JSON de recetas'''
-        ruta = 'BBDD/recetas.json'
-        data = self.obtener_datos(ruta)
-        aux = {
-            "ID_receta": id,
-            "Receta": Checks.bytes_json(receta),
-            "Signature": Checks.bytes_json(signature)
-        }
-        data.append(aux)
-        self.sobreescibir_json(data, ruta)
-        return 0
-
-    @classmethod
     def add_publickey(self, id_receta, key):
         '''Método que añade una receta al JSON de recetas'''
         ruta = 'BBDD/publickeys.json'
         data = self.obtener_datos(ruta)
         aux = {
             "ID_receta": id_receta,
-            "PublicKey": Checks.bytes_json(key)
+            "PublicKey": key
         }
         data.append(aux)
         self.sobreescibir_json(data, ruta)
