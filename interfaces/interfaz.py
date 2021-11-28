@@ -51,7 +51,8 @@ class Interfaz:
                         self.sujeto = Super(id, key, iv, salt, expediente)  # Crear objeto super y llamar a su menú
                         self.menu_super(nombre)
                     elif data[0]['Nivel'] == str(1):
-                        self.sujeto = Doctor(id, key, iv, salt, expediente, nombre)  # Crear objeto doctor y llamar a su menú
+                        private_key = data[0]['PrivateKey']
+                        self.sujeto = Doctor(id, key, iv, salt, expediente, nombre, private_key)  # Crear objeto doctor y llamar a su menú
                         self.menu_doctor(nombre)
                     elif data[0]['Nivel'] == str(0):
                         self.sujeto = Paciente(id, key, iv, salt, expediente)  # Crear objeto paciente y llamar a su menú

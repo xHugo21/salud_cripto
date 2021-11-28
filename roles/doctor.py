@@ -10,10 +10,11 @@ from interfaces.stringinterfaz import StringInterfaz
 from datetime import date
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
-from base64 import b64encode
+from base64 import b64encode, b64decode
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
 
 class Doctor:
-    def __init__(self, id, key, iv, salt, expediente, nombre_doctor):
+    def __init__(self, id, key, iv, salt, expediente, nombre_doctor, private_key):
         '''Inicializa los atributos del doctor'''
         self.__id = id
         self.__key = key
@@ -21,6 +22,7 @@ class Doctor:
         self.__salt = salt
         self.__expediente = expediente
         self.__nombre_doctor = nombre_doctor
+        self.__private_key = private_key
 
     def add_paciente(self):
         '''Método que permite añadir un paciente nuevo'''
@@ -174,7 +176,8 @@ class Doctor:
         return 0
 
     def generate_signature(self, receta, id_receta):
-        private_key = ec.generate_private_key(ec.SECP384R1)
+        private_key_bytes = b64decode(self.__private_key)
+        private_key = load_pem_private_key(private_key_bytes, None)
         receta_bytes = str(receta).encode()
         signature = private_key.sign(receta_bytes, ec.ECDSA(hashes.SHA256()))
         public_key = private_key.public_key()

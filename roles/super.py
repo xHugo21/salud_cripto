@@ -7,8 +7,9 @@ from jsonmethods import JsonMethods
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from interfaces.stringinterfaz import StringInterfaz
-
-
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat, NoEncryption
+from base64 import b64encode
 
 
 class Super:
@@ -42,7 +43,8 @@ class Super:
         expediente = salt.hex()
         new_ruta = 'BBDD/' + str(expediente) + '.txt'
         key = kdf.derive(pw.encode())
-        data = JsonMethods.crear_diccionario_doctor(nombre, apellidos, id, 1)
+
+        data = JsonMethods.crear_diccionario_doctor(nombre, apellidos, id, 1, self.generate_private_key())
         JsonMethods.escribir_txt(new_ruta, key, iv, data)
         new_wrap_key = JsonMethods.add_acceso(self.__key, key)
         data = JsonMethods.leer_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv)
@@ -105,6 +107,14 @@ class Super:
                 data[0]['Acceso'].pop(i)
         JsonMethods.escribir_txt('BBDD/' + self.__expediente + '.txt', self.__key, self.__iv, data)
         return -1
+    @staticmethod
+    def generate_private_key():
+        private_key = ec.generate_private_key(ec.SECP384R1)
+        private_key_bytes = private_key.private_bytes(Encoding.PEM, PrivateFormat.PKCS8, NoEncryption())
+        private_key_json = b64encode(private_key_bytes).decode('utf-8')
+
+        return private_key_json
+
 
 
 
